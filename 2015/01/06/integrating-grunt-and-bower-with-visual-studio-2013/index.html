@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Integrating Grunt and Bower with Visual Studio 2013 | DevKimchi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Bower,Gulp,node.js,npm,Grunt,LESS,Visual Studio 2013" />
+    
+    <meta name="description" content="For front-end development, node.js has already been, regardless you agree or not, in a main role for ages. It’s not only a development framework but also has become a development platform. It’s been n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Integrating Grunt and Bower with Visual Studio 2013">
+<meta property="og:url" content="http://devkimchi.com/2015/01/06/integrating-grunt-and-bower-with-visual-studio-2013/index.html">
+<meta property="og:site_name" content="DevKimchi">
+<meta property="og:description" content="For front-end development, node.js has already been, regardless you agree or not, in a main role for ages. It’s not only a development framework but also has become a development platform. It’s been n">
+<meta property="og:image" content="http://blob.devkimchi.com/devkimchiwp/2015/01/msysgit-01.png">
+<meta property="og:updated_time" content="2016-09-13T12:11:48.443Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Integrating Grunt and Bower with Visual Studio 2013">
+<meta name="twitter:description" content="For front-end development, node.js has already been, regardless you agree or not, in a main role for ages. It’s not only a development framework but also has become a development platform. It’s been n">
+<meta name="twitter:image" content="http://blob.devkimchi.com/devkimchiwp/2015/01/msysgit-01.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="DevKimchi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-54189949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Fermentation: Turning MS Tech Stack, .NET and Web into Something</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://devkimchi.com"></form>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Uncategorized/">Uncategorized</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-integrating-grunt-and-bower-with-visual-studio-2013" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Integrating Grunt and Bower with Visual Studio 2013
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-subtitle">
+                <a href="/2015/01/06/integrating-grunt-and-bower-with-visual-studio-2013/" class="article-date">
+    <time datetime="2015-01-06T09:29:34.000Z" itemprop="datePublished">2015-01-06</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bower/">Bower</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Grunt/">Grunt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gulp/">Gulp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LESS/">LESS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Studio-2013/">Visual Studio 2013</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>For front-end development, <a href="http://nodejs.org" target="_blank" rel="external"><code>node.js</code></a> has already been, regardless you agree or not, in a main role for ages. It’s not only a development framework but also has become a development platform. It’s been natively supported by Visual Studio 2013. This post is not about <code>node.js</code> itself, but about development package manager and task manager, ie. <a href="http://gruntjs.com/" target="_blank" rel="external">Grunt</a> and <a href="http://bower.io" target="_blank" rel="external">Bower</a>. I will discuss how Visual Studio 2013 will be able to integrate with them.</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>While I was doing an open-source website development project, a contributer responsible for front-end development started using <a href="http://bower.io" target="_blank" rel="external">Bower</a> for <a href="http://lesscss.org" target="_blank" rel="external">LESS</a> development. He showed me his works and asked me if I could directly use his repo without simply copying his compiled version of CSS files. After spending some times for research, <a href="https://twitter.com/shanselman" target="_blank" rel="external">Scott Hanselman</a>‘s post, <a href="http://www.hanselman.com/blog/IntroducingGulpGruntBowerAndNpmSupportForVisualStudio.aspx" target="_blank" rel="external">Introducing Gulp, Grunt, Bower, and npm support for Visual Studio</a> would be used as my solution. However, it was not that easy as I expected, because:</p>
+<ul>
+<li>I don’t have enough knowledge for them.</li>
+<li>They don’t have enough documentation. Windows OS was not considered enough.</li>
+<li>They are all CLI (command line interface) style, which I’m not used to.</li>
+</ul>
+<p>Eventually I made it!</p>
+<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><ul>
+<li><a href="http://www.visualstudio.com/en-us/downloads/download-visual-studio-vs#DownloadFamilies_5" target="_blank" rel="external">Visual Studio 2013 Update 4</a>: <a href="http://go.microsoft.com/?linkid=9842996" target="_blank" rel="external">Web Installer</a> | <a href="http://go.microsoft.com/?linkid=9842997" target="_blank" rel="external">ISO Image</a></li>
+<li><a href="https://visualstudiogallery.msdn.microsoft.com/8e1b4368-4afb-467a-bc13-9650572db708" target="_blank" rel="external">Task Runner Explorer</a></li>
+<li><a href="https://visualstudiogallery.msdn.microsoft.com/dcbc5325-79ef-4b72-960e-0a51ee33a0ff" target="_blank" rel="external">Grunt Launcher</a></li>
+<li><a href="https://visualstudiogallery.msdn.microsoft.com/65748cdb-4087-497e-a394-2e3449c8e61e" target="_blank" rel="external">Package Intellisense</a></li>
+<li><a href="https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe" target="_blank" rel="external">msysgit 1.9.5</a></li>
+<li><a href="http://nodejs.org" target="_blank" rel="external">node.js Windows Installer v0.10.35</a>: <a href="http://nodejs.org/dist/v0.10.35/node-v0.10.35-x86.msi" target="_blank" rel="external">32bit</a> | <a href="http://nodejs.org/dist/v0.10.35/x64/node-v0.10.35-x64.msi" target="_blank" rel="external">64bit</a></li>
+<li><a href="http://gruntjs.com" target="_blank" rel="external">Grunt</a></li>
+<li><a href="http://bower.io" target="_blank" rel="external">Bower</a></li>
+</ul>
+<h2 id="Development-Environment-Setup"><a href="#Development-Environment-Setup" class="headerlink" title="Development Environment Setup"></a>Development Environment Setup</h2><p>This is about integration of Visual Studio with other front-end development tools. Therefore it would be great to follow the setup in this order:</p>
+<ol>
+<li>Update Visual Studio 2013 Update 4</li>
+<li><p>Install/Update <code>msysgit</code> 1.9.5 (at the time of writing)</p>
+<pre><code>*   Setup a proxy server, if necessary
+</code></pre></li>
+<li>Install/Update <code>node.js</code> 0.10.35 (at the time of writing)</li>
+<li><p>Update <code>npm</code></p>
+<pre><code>*   Setup a proxy server, if necessary.
+</code></pre></li>
+<li>Install <code>Grunt</code></li>
+<li><p>Install <code>Bower</code></p>
+<pre><code>*   Setup a proxy server, if necessary.
+</code></pre></li>
+<li>Install <code>Gulp</code></li>
+<li>Install Visual Studio Extensions</li>
+</ol>
+<h3 id="Update-Visual-Studio-2013-Update-4"><a href="#Update-Visual-Studio-2013-Update-4" class="headerlink" title="Update Visual Studio 2013 Update 4"></a>Update Visual Studio 2013 Update 4</h3><p>In Scott’s post, he advised us to update VS2013.3. But two months after his post, VS2013.4 was released. So, it would be great to update to 4.</p>
+<h3 id="Install-Update-msysgit"><a href="#Install-Update-msysgit" class="headerlink" title="Install/Update msysgit"></a>Install/Update <code>msysgit</code></h3><p>If you use <code>git</code> on your Windows box, <code>msysgit</code> must have been already installed. It would be great to install the latest version of <code>msysgit</code> again with the option below:</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/msysgit-01.png" alt=""></p>
+<p>As a default, <code>Use Git Bash only</code> was selected. But select the second option, <code>Run Git from the Windows Command Prompt</code> as this is necessary for using <code>Bower</code> integration with VS2013.</p>
+<p><strong>NOTE</strong> If you are behind a corporate firewall, you should setup proxy servers. The following commands help you setup the proxy server.</p>
+<pre><code>git config --global http.proxy &quot;http://username:password@proxy.server:port&quot;
+`&lt;/pre&gt;
+
+For Active Directory users, try the following command. Make sure that backslash(`\`) should be encoded to `%5C`.
+
+&lt;pre&gt;`git config --global http.proxy &quot;http://domain%5Cusername:password@proxy.server:port&quot;
+`&lt;/pre&gt;
+
+Alternatively, you can directly modify the `%HOMEDRIVE%\.gitconfig` file like:
+
+&lt;pre&gt;`[http]
+    proxy = http://username:password@proxy.server:port
+`&lt;/pre&gt;
+
+Or (For Active Directory)
+
+&lt;pre&gt;`[http]
+    proxy = http://domain%5Cusername:password@proxy.server:port
+`&lt;/pre&gt;
+
+Setting up `HTTPS` connection is not necessary.
+
+### Install/Update `node.js`
+
+Install the latest version of `node.js`.
+
+### Update `npm`
+
+`npm (Node Package Manager)` is bundled with `node.js` installer. Open a Command Prompt Console as Administrator privilege and type the following to update `npm`.
+
+&lt;pre&gt;`npm update -g npm
+`&lt;/pre&gt;
+
+**NOTE** If you are behind a corporate firewall, you should setup proxy servers. The following commands help you setup the proxy server.
+
+&lt;pre&gt;`npm config set proxy &quot;http://username:password@proxy.server:port&quot;
+npm config set https-proxy &quot;http://username:password@proxy.server:port&quot;
+`&lt;/pre&gt;
+
+For Active Directory users, try the following command. Make sure that backslash(`\`) should be encoded to `%5C`.
+
+&lt;pre&gt;`npm config set proxy &quot;http://domain%5Cusername:password@proxy.server:port&quot;
+npm config set https-proxy &quot;http://domain%5Cusername:password@proxy.server:port&quot;
+`&lt;/pre&gt;
+
+Of course, you can directly modify `%USERPROFILE%\.npmrc` like:
+
+&lt;pre&gt;`proxy=&quot;http://username:password@proxy.server:port&quot;
+https-proxy=&quot;http://username:password@proxy.server:port&quot;
+`&lt;/pre&gt;
+
+Or (For Active Directory)
+
+&lt;pre&gt;`proxy=&quot;http://domain%5Cusername:password@proxy.server:port&quot;
+https-proxy=&quot;http://domain%5Cusername:password@proxy.server:port&quot;
+`&lt;/pre&gt;
+
+**FYI**: There are still many arguments on the community about using Active Directory. Some are successful, the others are not. Changing the double quotation marks (`&quot;`) to the single quotation marks (`&apos;`) can also be helpful to someones, not all.
+
+### Install/Update `Grunt`
+
+On the Command Prompt Console (as Administrator), try the following command:
+
+&lt;pre&gt;`npm install -g grunt-cli
+`&lt;/pre&gt;
+
+### Install/Update `Bower`
+
+`Bower` needs `node.js`, `npm` and `git`. We have already installed them. Try the following command on the Command Prompt Console (Administrator mode).
+
+&lt;pre&gt;`npm install -g bower
+`&lt;/pre&gt;
+
+**NOTE** If you are behind a corporate firewall, you should setup proxy servers. The following commands help you setup the proxy server. This can be done by modifying `%USERPRIFILE%\.bowerrc`.
+
+&lt;pre&gt;`{
+    &quot;proxy&quot;: &quot;http://username:password@proxy.server:port&quot;,
+    &quot;https-proxy&quot;: &quot;http://username:password@proxy.server:port&quot;
+}
+`&lt;/pre&gt;
+
+Or (For Active Directory)
+
+&lt;pre&gt;`{
+    &quot;proxy&quot;: &quot;http://domain%5Cusername:password@proxy.server:port&quot;,
+    &quot;https-proxy&quot;: &quot;http://domain%5Cusername:password@proxy.server:port&quot;
+}
+`&lt;/pre&gt;
+
+### Install/Update `Gulp`
+
+Install `Gulp` on the Command Prompt Console (Administrator mode) as well. This is just a requirements for the `Task Runner Express (TRX)` extension. We&apos;re not going further in this post.
+
+&lt;pre&gt;`npm install -g gulp
+`&lt;/pre&gt;
+
+### Install Visual Studio Extensions
+
+Install the following extensions:
+</code></pre><ul>
+<li><a href="https://visualstudiogallery.msdn.microsoft.com/8e1b4368-4afb-467a-bc13-9650572db708" target="_blank" rel="external">Task Runner Explorer</a></li>
+<li><a href="https://visualstudiogallery.msdn.microsoft.com/dcbc5325-79ef-4b72-960e-0a51ee33a0ff" target="_blank" rel="external">Grunt Launcher</a></li>
+<li><p><a href="https://visualstudiogallery.msdn.microsoft.com/65748cdb-4087-497e-a394-2e3449c8e61e" target="_blank" rel="external">Package Intellisense</a></p>
+<p>So far, we completed the development environment setup. Let’s move onto the actual source codes.</p>
+<h2 id="Setup-Grunt-Tasks-ndash-gruntfile-js-package-json"><a href="#Setup-Grunt-Tasks-ndash-gruntfile-js-package-json" class="headerlink" title="Setup Grunt Tasks &ndash; gruntfile.js, package.json"></a>Setup <code>Grunt</code> Tasks &ndash; <code>gruntfile.js</code>, <code>package.json</code></h2><p>Both <code>gruntfile.js</code> and <code>package.json</code> are necessary for <code>Grunt</code> as they define how <code>Grunt</code> works. If you are joining an existing project, they might already exist, but if not, you should create both. There are many ways to create them. In this post, we are going to use <code>grunt-init</code> to create bare minimum <code>gruntfile.js</code> and <code>package.json</code> files.</p>
+<h3 id="Install-grunt-init"><a href="#Install-grunt-init" class="headerlink" title="Install grunt-init"></a>Install <code>grunt-init</code></h3><p><code>grunt-init</code> initialises/scaffolds the <code>Grunt</code> project. Open the Command Prompt Console and type the following:</p>
+<pre>`npm install -g grunt-init
+`</pre>
+
+<p>The following command shows you which templates can be used for scaffolding.</p>
+<pre>`grunt-init --help
+`</pre>
+
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/grunt-init-01.png" alt=""></p>
+<p>As you can see the image above, <code>grunt-init-gruntfile</code> is only available. Of course, this should be installed first, which will be explained in the following section.</p>
+<h3 id="Install-grunt-init-gruntfile-Template"><a href="#Install-grunt-init-gruntfile-Template" class="headerlink" title="Install grunt-init-gruntfile Template"></a>Install <code>grunt-init-gruntfile</code> Template</h3><p><code>grunt-init-gruntfile</code> generates the very basic <code>gruntfile.js</code> and <code>package.json</code> as a bare minimum level. In order to use this template, follow the steps below:</p>
+</li>
+<li><p>Move the <code>%USERPROFILE%\.grunt-init</code> directory. If it doesn’t exist, create it.</p>
+</li>
+<li><p>Clone the repo from <a href="https://github.com" target="_blank" rel="external">GitHub</a> by running the following command. Alternatively, you can use <a href="https://code.google.com/p/tortoisegit/" target="_blank" rel="external">TortoiseGit</a> to clone it.</p>
+<pre>`git clone --progress -v "https://github.com/gruntjs/grunt-init-gruntfile.git" "%USERPROFILE%.grunt-initgrunt-init-gruntfile"
+`</pre>
+</li>
+<li><p>Run the following command at the root directory of your web app project.</p>
+<pre>`grunt-init grunt-init-gruntfile
+`</pre>
+
+<p>If you are asked some questions, use default settings.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/grunt-init-02.png" alt=""></p>
+<p>Generated <code>gruntfile.js</code> and <code>package.json</code> can be found on VS2013 like:</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/grunt-init-03.png" alt=""></p>
+<h3 id="Install-npm-Packages"><a href="#Install-npm-Packages" class="headerlink" title="Install npm Packages"></a>Install <code>npm</code> Packages</h3><p>After including <code>package.json</code>, right-mouse click on the file.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/npm-package-install-01.png" alt=""></p>
+<p>Click <code>NPM install packages</code> so that install modules defined in <code>package.json</code>. You can see the following screens. It’s a little bit strange that no message for completing installation pops up, by the way.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/npm-package-install-02.png" alt=""></p>
+<p>Instead, on the Solution Explorer pane, you can confirm that all modules defined in <code>package.json</code> have been installed.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/npm-package-install-03.png" alt=""></p>
+<p>Include <code>gruntfile.js</code> and right-mouse click on this file, and you can find both <code>Task Runner Explorer</code> and <code>Grunt</code> menus. Under the <code>Grunt</code> menu, you can also check the list of tasks defined in <code>gruntfile.js</code></p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/gruntfile-01.png" alt=""></p>
+<h3 id="Install-Additional-npm-Packages-ndash-Bower-and-LESS"><a href="#Install-Additional-npm-Packages-ndash-Bower-and-LESS" class="headerlink" title="Install Additional npm Packages &ndash; Bower and LESS"></a>Install Additional <code>npm</code> Packages &ndash; <code>Bower</code> and <code>LESS</code></h3><p>If <code>Bower</code> is used and it imports <code>LESS</code> library, both should be included to <code>Grunt</code>. <code>Bower</code> can be added with <a href="https://github.com/yatskevich/grunt-bower-task" target="_blank" rel="external">grunt-bower-task</a>.</p>
+<pre>`npm install grunt-bower-task --save-dev
+`</pre>
+
+<p><code>--save-dev</code> enables the <code>grunt-bower-task</code> package to be listed on <code>package.json</code>. This option should be appended.</p>
+<p>Likewise, <code>LESS</code> package can be added with <a href="https://www.npmjs.com/package/grunt-contrib-less" target="_blank" rel="external">grunt-contrib-less</a>.</p>
+<pre>`npm install grunt-contrib-less --save-dev
+`</pre>
+
+<p>Once both are installed, run <code>npm install</code> again to load both modules into the project.</p>
+<h3 id="Add-Tasks-to-Grunt-ndash-Bower-and-LESS"><a href="#Add-Tasks-to-Grunt-ndash-Bower-and-LESS" class="headerlink" title="Add Tasks to Grunt &ndash; Bower and LESS"></a>Add Tasks to <code>Grunt</code> &ndash; <code>Bower</code> and <code>LESS</code></h3><p>We have just added both <code>Bower</code> and <code>LESS</code> packages, but they are not still active. In order to get them enabled, modify <code>gruntfile.js</code> so that both are working properly.</p>
+<pre>`grunt.loadNpmTasks('grunt-bower-task');
+grunt.loadNpmTasks('grunt-contrib-less');
+`</pre>
+
+<p>Those two lines of code activate both modules. For initialisation, define settings within <code>grunt.initConfig();</code>.</p>
+<pre>`bower: {
+  install: {
+    options: {
+      targetDir: './lib',
+      layout: 'byType',
+      install: true,
+      verbose: false,
+      cleanTargetDir: false,
+      cleanBowerDir: false,
+      bowerOptions: {}
+    }
+  }
+}
+`</pre>
+
+<p>This is the default settings for <code>Bower</code>. With this, <code>Bower</code> installs its dependencies into the <code>/lib</code> directory. Make sure that the value of <code>targetDir</code> can be anything but <code>./bower_components</code> as <code>./bower_components</code> is a default location and, actually, this module creates both <code>/bower_components</code> and <code>/lib</code> directories.</p>
+<pre>`less: {
+  development: {
+    options: {
+      paths: ["less"]
+    },
+    files: {
+      "css/main.css": "less/main.less"
+    }
+  }
+}
+`</pre>
+
+<p>This is the default settings for <code>LESS</code>. This compiles <code>.less</code> files defined in <code>less/main.less</code> stores the result into <code>css/main.css</code></p>
+<p>Finally, setup <code>Alias Task</code>. This is a sort of batch job that allows multiple tasks in a defined order.</p>
+<pre>`grunt.registerTask('build', ['bower', 'less']);
+`</pre>
+
+<p>Save <code>gruntfile.js</code> and run <code>Task Runner Explorer</code> by right-mouse clicking the file on Solution Explorer.</p>
+<h2 id="Grunt-Build"><a href="#Grunt-Build" class="headerlink" title="Grunt Build"></a><code>Grunt</code> Build</h2><p>Any <code>Bower</code> project must contain <code>bower.json</code> as a meta data. Right-mouse click on <code>bower.json</code> and you can install <code>Bower</code> packages.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/bower-01.png" alt=""></p>
+<p>Instead of doing this, we are going to use <code>Grunt</code>. Find the <code>Task Runner Explorer (TRX)</code> again.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/trx-01.png" alt=""></p>
+<p>All tasks defined in <code>gruntfile.js</code> are displayed here. Right-mouse click on <code>Alias Tasks &amp;gt; build</code> and choose <code>Binding</code>, and you will be able to select one of four statuses &ndash; <code>Before Build</code>, <code>After Build</code>, <code>Clean</code> and <code>Solution Open</code> &ndash; to run the <code>build</code> task. In general, the <code>After Build</code> is the best.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/trx-02.png" alt=""></p>
+<p>Once the task is bound, double click the <code>build</code> task and you will be able to see the console running the task.</p>
+<p><strong>NOTE</strong> If you see the <code>#128</code> error, it’s because of the proxy server settings on <code>git</code>. Even though we have already set the proxy server at the global level, sometimes it doesn’t impact on the current project. In this case, setup the proxy server for the local repo level. For this, run the following command on the Command Prompt Console.</p>
+<p><pre>`git config http.proxy “<a href="http://username:password@proxy.server:port" target="_blank" rel="external">http://username:password@proxy.server:port</a>“</pre></p>
+</li>
+</ul>
+<p>Alternatively, you can directly modify <code>.git/config</code>.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/trx-03.png" alt=""></p>
+<p>Once everything goes OK, you can see the files generated like above. This can be found on the Solution Explorer pane.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/01/trx-04.png" alt=""></p>
+<p>As stated earlier, <code>grunt-bower-task</code> generates both <code>/bower_components</code> and <code>/lib</code>, <code>grunt-contrib-less</code> compiles <code>less/main.less</code> file into <code>css/main.css</code>.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>So far, we have discussed how Visual Studio can be integrated with <code>Grunt</code> and <code>Bower</code>. As each package manager has its own meta file &ndash; <code>gruntfile.js</code>, <code>package.json</code> and <code>bower.json</code>, they should be included within the project (or solution). On the other hand, interim directories like <code>node_modues</code>, <code>bower_components</code> and <code>lib</code> don’t have to be managed. With this approach, we can more easily manage front-end codes within Visual Studio. Of course Visual Studio 2015 will be more easy at handling this.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://facebook.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://linkedin.com/company/dev-kimchi" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/03/04/can-json-web-token-jwt-be-an-alternative-for-session/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Can JSON Web Token (JWT) Be an Alternative for Session?
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2014/12/02/sending-emails-from-sql-server-through-a-testable-and-configurable-clr-assembly/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Sending Emails from SQL Server through a Testable and Configurable CLR Assembly</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://www.moneystock.net/wp_e/wp-content/uploads/2016/07/bower2.jpg)" alt="How to use bower to manage front-end library in Visual Studio 2015 : for beginners" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="title">How to use bower to manage front-end library in Visual Studio 2015 : for beginners</a></p>
+                            <p class="item-date"><time datetime="2016-07-20T12:02:03.000Z" itemprop="datePublished">2016-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-02.png)" alt="Building .NET Core Application on Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="title">Building .NET Core Application on Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-08T23:00:09.000Z" itemprop="datePublished">2016-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/08/installing-mono-into-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-01.png)" alt="Installing Mono into Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/08/installing-mono-into-amazon-linux/" class="title">Installing Mono into Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-07T23:00:26.000Z" itemprop="datePublished">2016-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="title">Entity Framework Core Data Migration through KUDU</a></p>
+                            <p class="item-date"><time datetime="2016-06-06T23:00:46.000Z" itemprop="datePublished">2016-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/long-path-exception-01.png)" alt="Long Path Error While Publishing ASP.NET Core RC1 Applications" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="title">Long Path Error While Publishing ASP.NET Core RC1 Applications</a></p>
+                            <p class="item-date"><time datetime="2016-06-05T23:00:45.000Z" itemprop="datePublished">2016-06-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET-Core/" style="font-size: 10px;">.NET Core</a> <a href="/tags/API-Management/" style="font-size: 10px;">API Management</a> <a href="/tags/ARM/" style="font-size: 10px;">ARM</a> <a href="/tags/ASP-NET-5/" style="font-size: 10px;">ASP.NET 5</a> <a href="/tags/ASP-NET-Core/" style="font-size: 12.5px;">ASP.NET Core</a> <a href="/tags/ASP-NET-MVC/" style="font-size: 10px;">ASP.NET MVC</a> <a href="/tags/ASP-NET-MVC-6/" style="font-size: 10px;">ASP.NET MVC 6</a> <a href="/tags/AWS-Lambda/" style="font-size: 10px;">AWS Lambda</a> <a href="/tags/Amazon-Linux/" style="font-size: 12.5px;">Amazon Linux</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/App-Only/" style="font-size: 10px;">App-Only</a> <a href="/tags/Atlas/" style="font-size: 10px;">Atlas</a> <a href="/tags/Authentication/" style="font-size: 10px;">Authentication</a> <a href="/tags/Auto-Loading/" style="font-size: 10px;">Auto Loading</a> <a href="/tags/AutoRest/" style="font-size: 10px;">AutoRest</a> <a href="/tags/Autofac/" style="font-size: 15px;">Autofac</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Azure/" style="font-size: 12.5px;">Azure</a> <a href="/tags/Azure-Resource-Manager/" style="font-size: 10px;">Azure Resource Manager</a> <a href="/tags/Azure-SQL/" style="font-size: 12.5px;">Azure SQL</a> <a href="/tags/BizTalk/" style="font-size: 15px;">BizTalk</a> <a href="/tags/Bower/" style="font-size: 12.5px;">Bower</a> <a href="/tags/CDATA/" style="font-size: 10px;">CDATA</a> <a href="/tags/CLR-Assembly/" style="font-size: 10px;">CLR Assembly</a> <a href="/tags/CQRS-Pattern/" style="font-size: 10px;">CQRS Pattern</a> <a href="/tags/Cloud-Design-Pattern/" style="font-size: 10px;">Cloud Design Pattern</a> <a href="/tags/Configurability/" style="font-size: 10px;">Configurability</a> <a href="/tags/CrmSvcUtil-exe/" style="font-size: 10px;">CrmSvcUtil.exe</a> <a href="/tags/DI/" style="font-size: 10px;">DI</a> <a href="/tags/Data-Migration/" style="font-size: 10px;">Data Migration</a> <a href="/tags/DataAnnotations/" style="font-size: 10px;">DataAnnotations</a> <a href="/tags/Dependency-Injection/" style="font-size: 12.5px;">Dependency Injection</a> <a href="/tags/Deserialisation/" style="font-size: 10px;">Deserialisation</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Dynamics-CRM/" style="font-size: 10px;">Dynamics CRM</a> <a href="/tags/Dynamics-CRM-Online/" style="font-size: 10px;">Dynamics CRM Online</a> <a href="/tags/Email/" style="font-size: 10px;">Email</a> <a href="/tags/Entity-Context-Library/" style="font-size: 10px;">Entity Context Library</a> <a href="/tags/Entity-Framework/" style="font-size: 12.5px;">Entity Framework</a> <a href="/tags/Event-Sourcing-Pattern/" style="font-size: 10px;">Event Sourcing Pattern</a> <a href="/tags/Extensibility/" style="font-size: 10px;">Extensibility</a> <a href="/tags/Extensions/" style="font-size: 10px;">Extensions</a> <a href="/tags/External-Activator/" style="font-size: 17.5px;">External Activator</a> <a href="/tags/Filtering/" style="font-size: 10px;">Filtering</a> <a href="/tags/Flexibility/" style="font-size: 10px;">Flexibility</a> <a href="/tags/Fluent-API/" style="font-size: 10px;">Fluent API</a> <a href="/tags/FluentValidation/" style="font-size: 10px;">FluentValidation</a> <a href="/tags/ForEach/" style="font-size: 10px;">ForEach</a> <a href="/tags/GROUP-BY/" style="font-size: 10px;">GROUP BY</a> <a href="/tags/Global-Exception-Handling/" style="font-size: 10px;">Global Exception Handling</a> <a href="/tags/Graph-API/" style="font-size: 10px;">Graph API</a> <a href="/tags/Grunt/" style="font-size: 10px;">Grunt</a> <a href="/tags/Gulp/" style="font-size: 12.5px;">Gulp</a> <a href="/tags/HAL/" style="font-size: 10px;">HAL</a> <a href="/tags/HAVING/" style="font-size: 10px;">HAVING</a> <a href="/tags/Integration/" style="font-size: 10px;">Integration</a> <a href="/tags/Inversion-of-Control/" style="font-size: 10px;">Inversion of Control</a> <a href="/tags/IoC/" style="font-size: 12.5px;">IoC</a> <a href="/tags/JSON-Web-Token/" style="font-size: 10px;">JSON Web Token</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/KUDU/" style="font-size: 10px;">KUDU</a> <a href="/tags/LESS/" style="font-size: 10px;">LESS</a> <a href="/tags/LINQ/" style="font-size: 10px;">LINQ</a> <a href="/tags/Logic-Apps/" style="font-size: 10px;">Logic Apps</a> <a href="/tags/MS-SQL/" style="font-size: 10px;">MS-SQL</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/Microsoft-Graph/" style="font-size: 10px;">Microsoft Graph</a> <a href="/tags/Module/" style="font-size: 10px;">Module</a> <a href="/tags/Mono/" style="font-size: 12.5px;">Mono</a> <a href="/tags/O365/" style="font-size: 10px;">O365</a> <a href="/tags/Office-365/" style="font-size: 10px;">Office 365</a> <a href="/tags/Parallel/" style="font-size: 10px;">Parallel</a> <a href="/tags/PathTooLongException/" style="font-size: 10px;">PathTooLongException</a> <a href="/tags/Plugins/" style="font-size: 10px;">Plugins</a> <a href="/tags/PowerShell/" style="font-size: 15px;">PowerShell</a> <a href="/tags/Quartz-NET/" style="font-size: 10px;">Quartz.NET</a> <a href="/tags/RC1/" style="font-size: 10px;">RC1</a> <a href="/tags/REST-API/" style="font-size: 10px;">REST API</a> <a href="/tags/ReCaptcha-NET/" style="font-size: 10px;">ReCaptcha.NET</a> <a href="/tags/Resource-Group/" style="font-size: 10px;">Resource Group</a> <a href="/tags/SELECT/" style="font-size: 10px;">SELECT</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 20px;">SQL Server</a> <a href="/tags/Serialisation/" style="font-size: 10px;">Serialisation</a> <a href="/tags/Service-Broker/" style="font-size: 17.5px;">Service Broker</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SharePoint/" style="font-size: 10px;">SharePoint</a> <a href="/tags/Swagger/" style="font-size: 12.5px;">Swagger</a> <a href="/tags/Swashbuckle/" style="font-size: 10px;">Swashbuckle</a> <a href="/tags/Testability/" style="font-size: 12.5px;">Testability</a> <a href="/tags/Tips-amp-Tricks/" style="font-size: 10px;">Tips &amp; Tricks</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Visual-Studio-2013/" style="font-size: 10px;">Visual Studio 2013</a> <a href="/tags/WCF/" style="font-size: 10px;">WCF</a> <a href="/tags/WHERE/" style="font-size: 10px;">WHERE</a> <a href="/tags/Web-API/" style="font-size: 12.5px;">Web API</a> <a href="/tags/Windows-API-Code-Pack/" style="font-size: 10px;">Windows API Code Pack</a> <a href="/tags/Windows-Service/" style="font-size: 10px;">Windows Service</a> <a href="/tags/XML/" style="font-size: 12.5px;">XML</a> <a href="/tags/asp-net/" style="font-size: 10px;">asp.net</a> <a href="/tags/concourrency/" style="font-size: 10px;">concourrency</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.5px;">npm</a> <a href="/tags/reCaptcha/" style="font-size: 10px;">reCaptcha</a> <a href="/tags/visual-studio-2015/" style="font-size: 10px;">visual studio 2015</a> <a href="/tags/vs-2015/" style="font-size: 10px;">vs 2015</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 DevKimchi</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'devkimchi';
+    
+    
+    var disqus_url = 'http://devkimchi.com/2015/01/06/integrating-grunt-and-bower-with-visual-studio-2013/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

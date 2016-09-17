@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Building SPA with Event Sourcing and CQRS Pattern | DevKimchi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="AngularJS,Cloud Design Pattern,CQRS Pattern,Event Sourcing Pattern,TypeScript,Web API" />
+    
+    <meta name="description" content="Acknowledgement: This is a cross-posting over Building Applications with Event Sourcing and CQRS Pattern at Kloud blog.
+
+When we start building an application on cloud, like Azure, we should consider">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building SPA with Event Sourcing and CQRS Pattern">
+<meta property="og:url" content="http://devkimchi.com/2015/11/17/building-spa-with-event-sourcing-and-cqrs-pattern/index.html">
+<meta property="og:site_name" content="DevKimchi">
+<meta property="og:description" content="Acknowledgement: This is a cross-posting over Building Applications with Event Sourcing and CQRS Pattern at Kloud blog.
+
+When we start building an application on cloud, like Azure, we should consider">
+<meta property="og:image" content="https://i-msdn.sec.s-msft.com/dynimg/IC709550.png">
+<meta property="og:updated_time" content="2016-09-13T12:11:48.456Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Building SPA with Event Sourcing and CQRS Pattern">
+<meta name="twitter:description" content="Acknowledgement: This is a cross-posting over Building Applications with Event Sourcing and CQRS Pattern at Kloud blog.
+
+When we start building an application on cloud, like Azure, we should consider">
+<meta name="twitter:image" content="https://i-msdn.sec.s-msft.com/dynimg/IC709550.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="DevKimchi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-54189949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Fermentation: Turning MS Tech Stack, .NET and Web into Something</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://devkimchi.com"></form>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Uncategorized/">Uncategorized</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-building-spa-with-event-sourcing-and-cqrs-pattern" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Building SPA with Event Sourcing and CQRS Pattern
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-subtitle">
+                <a href="/2015/11/17/building-spa-with-event-sourcing-and-cqrs-pattern/" class="article-date">
+    <time datetime="2015-11-17T08:53:59.000Z" itemprop="datePublished">2015-11-17</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CQRS-Pattern/">CQRS Pattern</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cloud-Design-Pattern/">Cloud Design Pattern</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Event-Sourcing-Pattern/">Event Sourcing Pattern</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/">TypeScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-API/">Web API</a></li></ul>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p><strong>Acknowledgement</strong>: This is a cross-posting over <a href="http://blog.kloud.com.au/2015/11/16/building-applications-with-event-sourcing-and-cqrs-pattern" target="_blank" rel="external">Building Applications with Event Sourcing and CQRS Pattern</a> at <a href="http://blog.kloud.com.au" target="_blank" rel="external">Kloud blog</a>.</p>
+</blockquote>
+<p>When we start building an application on cloud, like <a href="https://azure.microsoft.com" target="_blank" rel="external">Azure</a>, we should consider many factors. Those factors include flexibility, scalability, performance and so on. In order to satisfy those factors, components making up the application should be loosely coupled and ready for extension and change at any time. For those considerations, Microsoft has introduced <a href="https://msdn.microsoft.com/en-us/library/dn568099.aspx" target="_blank" rel="external">24 cloud design patterns</a>. Even though they are called as <strong>“Cloud Design Patterns”</strong>, they can be used just for application development anyway. In this post, I’m going to introduce <a href="https://msdn.microsoft.com/en-us/library/dn589792.aspx" target="_blank" rel="external">Event Sourcing Pattern</a> and <a href="https://msdn.microsoft.com/en-us/library/dn568103.aspx" target="_blank" rel="external">CQRS Pattern</a> and how they can be used in a single page application (SPA) like AngularJS application.</p>
+<blockquote>
+<p>The complete code sample can be found <a href="https://github.com/devkimchi/EventSourcing-CQRS-Sample" target="_blank" rel="external">here</a>.</p>
+</blockquote>
+<h2 id="Patterns-Overview"><a href="#Patterns-Overview" class="headerlink" title="Patterns Overview"></a>Patterns Overview</h2><p>I’m not going into too much details here to explain what Event Sourcing (ES) Pattern and CQRS Pattern are. According to articles linked above, both ES and CQRS easily get along with each other. AS the name itself says, CQRS separates commands from query &ndash; commands and query use different dataset and ES supports event stream for data store (commands), and materialisation and replaying (query). Let’s take a look at the diagram below.</p>
+<p><img src="https://i-msdn.sec.s-msft.com/dynimg/IC709550.png" alt=""><br>[Image from: <a href="https://msdn.microsoft.com/en-us/library/dn589792.aspx" target="_blank" rel="external">https://msdn.microsoft.com/en-us/library/dn589792.aspx</a>]</p>
+<p>This explains how ES and CQRS work together. Any individual input (or behaviour) from a user on the presentation layer (possibly Angular app in this post) is captured as an event and stored into event stream with timestamp. This storing action is <code>append-only</code>, ie events are only to be added. Therefore, the event stream becomes a <code>source of truth</code>, so all events captured and stored into the event stream can be replayed for query or materialised for transaction.</p>
+<p>OK. Theory is enough. Let’s build an Angular app with Web API.</p>
+<h2 id="Client-side-Implementation-for-Event-Triggering"><a href="#Client-side-Implementation-for-Event-Triggering" class="headerlink" title="Client-side Implementation for Event Triggering"></a>Client-side Implementation for Event Triggering</h2><p><img src="http://blob.devkimchi.com/devkimchiwp/2015/11/event-sourcing-cqrs.01.png" alt=""></p>
+<p>There are three user input fields &ndash; <code>Title</code>, <code>Name</code> and <code>Email</code> &ndash; and the <code>Submit</code> button. Each field and button acts as an event. In this code sample, they are named as <code>SalutationChangedEvent</code>, <code>UsernameChangedEvent</code>, <code>EmailChangedEvent</code> and <code>UserCreatedEvent</code>. Those events are handled by event handlers at the Web API side. What the Angular app does is to capture the input values when they are being changed and clicked. This is a sample TypeScript code bits for the name field directive.</p>
+<p><a href="https://gist.github.com/justinyoo/8296de50b364bc2800f6" target="_blank" rel="external">https://gist.github.com/justinyoo/8296de50b364bc2800f6</a></p>
+<p>This HTML is a template used for the directive below. <code>ng-model</code> will capture the field value and the value will be sent to the server to store event stream.</p>
+<p><a href="https://gist.github.com/justinyoo/de8284ca511aa72ccbc1" target="_blank" rel="external">https://gist.github.com/justinyoo/de8284ca511aa72ccbc1</a></p>
+<p>Please bear in mind that, as this is written in <a href="http://typescriptlang.org" target="_blank" rel="external">TypeScript</a>, the coding style is slightly different from the original Angular 1.x way.</p>
+<ol>
+<li>The interface <code>IUserNameScope</code> defines <code>model</code> property and <code>change</code> function. This inherits <code>$scope</code>.</li>
+<li>The interface is injected to both <code>link</code> and <code>controller</code> of the directive <code>UserName</code> that implements <code>ng.IDirective</code>.</li>
+<li>A <code>link</code> function of the directive takes care of all DOM related ones.</li>
+<li>The <code>link</code> function calls the function declared in <code>$scope</code> to send AJAX request to Web API.</li>
+<li>A POST AJAX request is sent through <code>userNameFactory</code> to the server.</li>
+<li>A response comes from the server as a <code>promise</code> format and the response is passed to <code>replayViewFactory</code> for replay.</li>
+</ol>
+<p>Both <code>Title</code> and <code>Email</code> fields work the same way as the <code>Name</code> field. Now, let’s have a look how the replay view section looks like.</p>
+<p><a href="https://gist.github.com/justinyoo/62dc63c66bba06a01190" target="_blank" rel="external">https://gist.github.com/justinyoo/62dc63c66bba06a01190</a></p>
+<p>This HTML template is used for the directive below. The following directive is only to replay responses.</p>
+<p><a href="https://gist.github.com/justinyoo/d29265454f2201919c01" target="_blank" rel="external">https://gist.github.com/justinyoo/d29265454f2201919c01</a></p>
+<p>As you can see, this directive only calls the <code>replayViewFactory.getReplayedView()</code> function to display what changes are. How do those events get comsumed at the server-side then? Let’s move onto the next look.</p>
+<h2 id="Server-side-Implementation-for-Event-Processing"><a href="#Server-side-Implementation-for-Event-Processing" class="headerlink" title="Server-side Implementation for Event Processing"></a>Server-side Implementation for Event Processing</h2><p>The POST request has been sent through a designated endpoint like:</p>
+<p><a href="https://gist.github.com/justinyoo/f6ebc4a218c24a7bcd1b" target="_blank" rel="external">https://gist.github.com/justinyoo/f6ebc4a218c24a7bcd1b</a></p>
+<p>This request is captured in this Web API action:</p>
+<p><a href="https://gist.github.com/justinyoo/b7e1cadfbcc2d7b32f6e" target="_blank" rel="external">https://gist.github.com/justinyoo/b7e1cadfbcc2d7b32f6e</a></p>
+<p>The action in the controller merely calls the <code>this._service.ChangeUsernameAsync(request)</code> method. Not too excited. Let’s dig into the service layer then.</p>
+<p><a href="https://gist.github.com/justinyoo/f443d32960e5ea36872c" target="_blank" rel="external">https://gist.github.com/justinyoo/f443d32960e5ea36872c</a></p>
+<ol>
+<li>Based on the type of the request passed, an appropriate request handler is selected.</li>
+<li>The request handler converts the request into a corresponding event. In this code sample, the <code>UsernameChangeRequest</code> is converted to <code>UsernameChangedEvent</code> by the handler.</li>
+<li>An event processor takes the event and process it.</li>
+</ol>
+<p>A question may arise here. How does request handler selection work? Each request handler implements <code>IRequestHandler</code> and it defines two methods:</p>
+<p><a href="https://gist.github.com/justinyoo/5930098dfe9b8d5ed77b" target="_blank" rel="external">https://gist.github.com/justinyoo/5930098dfe9b8d5ed77b</a></p>
+<p>Therefore, you can create as many request handlers as you like, and register them into your IoC container (using <a href="http://autofac.org" target="_blank" rel="external">Autofac</a> for example) like:</p>
+<p><a href="https://gist.github.com/justinyoo/fc454b59b8879b0d37d1" target="_blank" rel="external">https://gist.github.com/justinyoo/fc454b59b8879b0d37d1</a></p>
+<p>In the sample code used here registers five request handlers. If your business logic is way far complex and require many request handlers, you might need to consider moduling those request handlers automatic registration. I’ll discuss this in another post soon. Another question may arise again. How does the event processor work? Let’s have a look. Here’s the event processor:</p>
+<p><a href="https://gist.github.com/justinyoo/31ec05821f2f60df7d11" target="_blank" rel="external">https://gist.github.com/justinyoo/31ec05821f2f60df7d11</a></p>
+<p>This is quite similar to the <code>EventStreamService.ChangeUsernameAsync()</code>. First of all, find all event handlers that can handle the event. Then those selected event handlers process the event as all event handlers implements <code>IEventHandler</code> interface:</p>
+<p><a href="https://gist.github.com/justinyoo/80998cb0367642459d78" target="_blank" rel="external">https://gist.github.com/justinyoo/80998cb0367642459d78</a></p>
+<p>To wrap up,</p>
+<ol>
+<li>A user action is captured at a client-side and passed to a server-side as a request.</li>
+<li>The user action request is converted to an event by request handlers.</li>
+<li>The event is then processed and stored into event stream by event handlers.</li>
+</ol>
+<p>Of course, I’m not arguing this is the perfect example for event processing. However, at least, it’s working and open for extension, which is good.</p>
+<h2 id="Replaying-Events"><a href="#Replaying-Events" class="headerlink" title="Replaying Events"></a>Replaying Events</h2><p>Now, all events are raised and stored into event stream with timestamp. Event stream becomes a <code>source of truth</code>. Therefore, if we want to populate a user’s data against a particular time period, as long as we provide timestamp, we’re able to load the data without impacting on the actual data store. If you run the code sample on your local and make some user input change, you’ll actually be able to see the replayed view.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/11/event-sourcing-cqrs.02.png" alt=""></p>
+<p>Now, let’s store the user data into the <strong>real</strong> data store by event materialisation.</p>
+<h2 id="Materialising-Events"><a href="#Materialising-Events" class="headerlink" title="Materialising Events"></a>Materialising Events</h2><p>When you hit the <code>Submit</code> button, the server-side replays all events from the event stream with the current timestamp for materialisation. Then the materialised view is stored into the <code>User</code> table. As this is considered as another event, another event, <code>UserCreatedEvent</code> is created and processed by <code>UserCreatedEventHandler</code>. Unlike other event handlers, it does not only use the event stream repository, but also use the user repository.</p>
+<p><a href="https://gist.github.com/justinyoo/fed0b4ab1bede237f941" target="_blank" rel="external">https://gist.github.com/justinyoo/fed0b4ab1bede237f941</a></p>
+<p>In other words, the event itself is stored into the event stream and a user data from the event is stored into the user repository. Once stored, you will be able to find on the screen.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/11/event-sourcing-cqrs.03.png" alt=""></p>
+<p>Please note that, if you change <code>Title</code>, <code>Name</code>, or <code>Email</code> but not yet click the <code>Submit</code> button, you’ll find some difference like the following screen:</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/11/event-sourcing-cqrs.04.png" alt=""></p>
+<p>So far, we’ve briefly discussed both ES pattern and CQRS pattern with a simple Angular - Web API app. How did you find it? Wouldn’t it be nice for your next application development? Make sure one thing. Applying those patterns might bring overly complex architecture into your application as there are many abstraction layers involved. If your application is relatively simple or small, you don’t have to consider those patterns. However, your application is growing and becomes heavier and complex, then it’s time to consider getting those patterns implemented for your application.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://facebook.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://linkedin.com/company/dev-kimchi" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/12/02/creating-entity-filtered-service-context-for-dynamics-crm-2015/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Creating Entity-Filtered Service Context for Dynamics CRM 2015
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2015/10/28/creating-service-contract-with-autorest-swagger-and-hal/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Creating Service Contract with AutoRest, Swagger and HAL</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://www.moneystock.net/wp_e/wp-content/uploads/2016/07/bower2.jpg)" alt="How to use bower to manage front-end library in Visual Studio 2015 : for beginners" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="title">How to use bower to manage front-end library in Visual Studio 2015 : for beginners</a></p>
+                            <p class="item-date"><time datetime="2016-07-20T12:02:03.000Z" itemprop="datePublished">2016-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-02.png)" alt="Building .NET Core Application on Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="title">Building .NET Core Application on Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-08T23:00:09.000Z" itemprop="datePublished">2016-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/08/installing-mono-into-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-01.png)" alt="Installing Mono into Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/08/installing-mono-into-amazon-linux/" class="title">Installing Mono into Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-07T23:00:26.000Z" itemprop="datePublished">2016-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="title">Entity Framework Core Data Migration through KUDU</a></p>
+                            <p class="item-date"><time datetime="2016-06-06T23:00:46.000Z" itemprop="datePublished">2016-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/long-path-exception-01.png)" alt="Long Path Error While Publishing ASP.NET Core RC1 Applications" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="title">Long Path Error While Publishing ASP.NET Core RC1 Applications</a></p>
+                            <p class="item-date"><time datetime="2016-06-05T23:00:45.000Z" itemprop="datePublished">2016-06-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET-Core/" style="font-size: 10px;">.NET Core</a> <a href="/tags/API-Management/" style="font-size: 10px;">API Management</a> <a href="/tags/ARM/" style="font-size: 10px;">ARM</a> <a href="/tags/ASP-NET-5/" style="font-size: 10px;">ASP.NET 5</a> <a href="/tags/ASP-NET-Core/" style="font-size: 12.5px;">ASP.NET Core</a> <a href="/tags/ASP-NET-MVC/" style="font-size: 10px;">ASP.NET MVC</a> <a href="/tags/ASP-NET-MVC-6/" style="font-size: 10px;">ASP.NET MVC 6</a> <a href="/tags/AWS-Lambda/" style="font-size: 10px;">AWS Lambda</a> <a href="/tags/Amazon-Linux/" style="font-size: 12.5px;">Amazon Linux</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/App-Only/" style="font-size: 10px;">App-Only</a> <a href="/tags/Atlas/" style="font-size: 10px;">Atlas</a> <a href="/tags/Authentication/" style="font-size: 10px;">Authentication</a> <a href="/tags/Auto-Loading/" style="font-size: 10px;">Auto Loading</a> <a href="/tags/AutoRest/" style="font-size: 10px;">AutoRest</a> <a href="/tags/Autofac/" style="font-size: 15px;">Autofac</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Azure/" style="font-size: 12.5px;">Azure</a> <a href="/tags/Azure-Resource-Manager/" style="font-size: 10px;">Azure Resource Manager</a> <a href="/tags/Azure-SQL/" style="font-size: 12.5px;">Azure SQL</a> <a href="/tags/BizTalk/" style="font-size: 15px;">BizTalk</a> <a href="/tags/Bower/" style="font-size: 12.5px;">Bower</a> <a href="/tags/CDATA/" style="font-size: 10px;">CDATA</a> <a href="/tags/CLR-Assembly/" style="font-size: 10px;">CLR Assembly</a> <a href="/tags/CQRS-Pattern/" style="font-size: 10px;">CQRS Pattern</a> <a href="/tags/Cloud-Design-Pattern/" style="font-size: 10px;">Cloud Design Pattern</a> <a href="/tags/Configurability/" style="font-size: 10px;">Configurability</a> <a href="/tags/CrmSvcUtil-exe/" style="font-size: 10px;">CrmSvcUtil.exe</a> <a href="/tags/DI/" style="font-size: 10px;">DI</a> <a href="/tags/Data-Migration/" style="font-size: 10px;">Data Migration</a> <a href="/tags/DataAnnotations/" style="font-size: 10px;">DataAnnotations</a> <a href="/tags/Dependency-Injection/" style="font-size: 12.5px;">Dependency Injection</a> <a href="/tags/Deserialisation/" style="font-size: 10px;">Deserialisation</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Dynamics-CRM/" style="font-size: 10px;">Dynamics CRM</a> <a href="/tags/Dynamics-CRM-Online/" style="font-size: 10px;">Dynamics CRM Online</a> <a href="/tags/Email/" style="font-size: 10px;">Email</a> <a href="/tags/Entity-Context-Library/" style="font-size: 10px;">Entity Context Library</a> <a href="/tags/Entity-Framework/" style="font-size: 12.5px;">Entity Framework</a> <a href="/tags/Event-Sourcing-Pattern/" style="font-size: 10px;">Event Sourcing Pattern</a> <a href="/tags/Extensibility/" style="font-size: 10px;">Extensibility</a> <a href="/tags/Extensions/" style="font-size: 10px;">Extensions</a> <a href="/tags/External-Activator/" style="font-size: 17.5px;">External Activator</a> <a href="/tags/Filtering/" style="font-size: 10px;">Filtering</a> <a href="/tags/Flexibility/" style="font-size: 10px;">Flexibility</a> <a href="/tags/Fluent-API/" style="font-size: 10px;">Fluent API</a> <a href="/tags/FluentValidation/" style="font-size: 10px;">FluentValidation</a> <a href="/tags/ForEach/" style="font-size: 10px;">ForEach</a> <a href="/tags/GROUP-BY/" style="font-size: 10px;">GROUP BY</a> <a href="/tags/Global-Exception-Handling/" style="font-size: 10px;">Global Exception Handling</a> <a href="/tags/Graph-API/" style="font-size: 10px;">Graph API</a> <a href="/tags/Grunt/" style="font-size: 10px;">Grunt</a> <a href="/tags/Gulp/" style="font-size: 12.5px;">Gulp</a> <a href="/tags/HAL/" style="font-size: 10px;">HAL</a> <a href="/tags/HAVING/" style="font-size: 10px;">HAVING</a> <a href="/tags/Integration/" style="font-size: 10px;">Integration</a> <a href="/tags/Inversion-of-Control/" style="font-size: 10px;">Inversion of Control</a> <a href="/tags/IoC/" style="font-size: 12.5px;">IoC</a> <a href="/tags/JSON-Web-Token/" style="font-size: 10px;">JSON Web Token</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/KUDU/" style="font-size: 10px;">KUDU</a> <a href="/tags/LESS/" style="font-size: 10px;">LESS</a> <a href="/tags/LINQ/" style="font-size: 10px;">LINQ</a> <a href="/tags/Logic-Apps/" style="font-size: 10px;">Logic Apps</a> <a href="/tags/MS-SQL/" style="font-size: 10px;">MS-SQL</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/Microsoft-Graph/" style="font-size: 10px;">Microsoft Graph</a> <a href="/tags/Module/" style="font-size: 10px;">Module</a> <a href="/tags/Mono/" style="font-size: 12.5px;">Mono</a> <a href="/tags/O365/" style="font-size: 10px;">O365</a> <a href="/tags/Office-365/" style="font-size: 10px;">Office 365</a> <a href="/tags/Parallel/" style="font-size: 10px;">Parallel</a> <a href="/tags/PathTooLongException/" style="font-size: 10px;">PathTooLongException</a> <a href="/tags/Plugins/" style="font-size: 10px;">Plugins</a> <a href="/tags/PowerShell/" style="font-size: 15px;">PowerShell</a> <a href="/tags/Quartz-NET/" style="font-size: 10px;">Quartz.NET</a> <a href="/tags/RC1/" style="font-size: 10px;">RC1</a> <a href="/tags/REST-API/" style="font-size: 10px;">REST API</a> <a href="/tags/ReCaptcha-NET/" style="font-size: 10px;">ReCaptcha.NET</a> <a href="/tags/Resource-Group/" style="font-size: 10px;">Resource Group</a> <a href="/tags/SELECT/" style="font-size: 10px;">SELECT</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 20px;">SQL Server</a> <a href="/tags/Serialisation/" style="font-size: 10px;">Serialisation</a> <a href="/tags/Service-Broker/" style="font-size: 17.5px;">Service Broker</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SharePoint/" style="font-size: 10px;">SharePoint</a> <a href="/tags/Swagger/" style="font-size: 12.5px;">Swagger</a> <a href="/tags/Swashbuckle/" style="font-size: 10px;">Swashbuckle</a> <a href="/tags/Testability/" style="font-size: 12.5px;">Testability</a> <a href="/tags/Tips-amp-Tricks/" style="font-size: 10px;">Tips &amp; Tricks</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Visual-Studio-2013/" style="font-size: 10px;">Visual Studio 2013</a> <a href="/tags/WCF/" style="font-size: 10px;">WCF</a> <a href="/tags/WHERE/" style="font-size: 10px;">WHERE</a> <a href="/tags/Web-API/" style="font-size: 12.5px;">Web API</a> <a href="/tags/Windows-API-Code-Pack/" style="font-size: 10px;">Windows API Code Pack</a> <a href="/tags/Windows-Service/" style="font-size: 10px;">Windows Service</a> <a href="/tags/XML/" style="font-size: 12.5px;">XML</a> <a href="/tags/asp-net/" style="font-size: 10px;">asp.net</a> <a href="/tags/concourrency/" style="font-size: 10px;">concourrency</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.5px;">npm</a> <a href="/tags/reCaptcha/" style="font-size: 10px;">reCaptcha</a> <a href="/tags/visual-studio-2015/" style="font-size: 10px;">visual studio 2015</a> <a href="/tags/vs-2015/" style="font-size: 10px;">vs 2015</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 DevKimchi</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'devkimchi';
+    
+    
+    var disqus_url = 'http://devkimchi.com/2015/11/17/building-spa-with-event-sourcing-and-cqrs-pattern/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

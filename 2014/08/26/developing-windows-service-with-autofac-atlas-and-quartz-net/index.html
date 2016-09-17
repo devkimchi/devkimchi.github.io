@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Developing Windows Service with Autofac, Atlas and Quartz.NET | DevKimchi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Atlas,Autofac,Quartz.NET,Windows Service" />
+    
+    <meta name="description" content="There are many articles about implementing a scheduled job using Autofac and Quartz.NET on the Internet. However, they are not quite complete. They just provide some concepts but not actual working ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Developing Windows Service with Autofac, Atlas and Quartz.NET">
+<meta property="og:url" content="http://devkimchi.com/2014/08/26/developing-windows-service-with-autofac-atlas-and-quartz-net/index.html">
+<meta property="og:site_name" content="DevKimchi">
+<meta property="og:description" content="There are many articles about implementing a scheduled job using Autofac and Quartz.NET on the Internet. However, they are not quite complete. They just provide some concepts but not actual working ex">
+<meta property="og:image" content="http://blob.devkimchi.com/devkimchiwp/2014/08/autofac-atlas-quartz-01.png">
+<meta property="og:updated_time" content="2016-09-13T12:11:48.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Developing Windows Service with Autofac, Atlas and Quartz.NET">
+<meta name="twitter:description" content="There are many articles about implementing a scheduled job using Autofac and Quartz.NET on the Internet. However, they are not quite complete. They just provide some concepts but not actual working ex">
+<meta name="twitter:image" content="http://blob.devkimchi.com/devkimchiwp/2014/08/autofac-atlas-quartz-01.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="DevKimchi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-54189949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Fermentation: Turning MS Tech Stack, .NET and Web into Something</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://devkimchi.com"></form>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Uncategorized/">Uncategorized</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-developing-windows-service-with-autofac-atlas-and-quartz-net" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Developing Windows Service with Autofac, Atlas and Quartz.NET
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-subtitle">
+                <a href="/2014/08/26/developing-windows-service-with-autofac-atlas-and-quartz-net/" class="article-date">
+    <time datetime="2014-08-26T13:25:28.000Z" itemprop="datePublished">2014-08-26</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Atlas/">Atlas</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Autofac/">Autofac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Quartz-NET/">Quartz.NET</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows-Service/">Windows Service</a></li></ul>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>There are many articles about implementing a scheduled job using <a href="http://autofac.org" target="_blank" rel="external"><code>Autofac</code></a> and <a href="http://www.quartz-scheduler.net" target="_blank" rel="external"><code>Quartz.NET</code></a> on the Internet. However, they are not quite complete. They just provide some concepts but not actual working example. In general, this post follows <a href="https://twitter.com/markjourdan" target="_blank" rel="external">Mark Jourdan</a>‘s post, <a href="http://www.markjourdan.com/a-quick-way-to-create-a-windows-service-using-autofac-quartz-and-atlas" target="_blank" rel="external">A quick way to create a windows service using Autofac, Quartz and Atlas</a>. However, it actually didn’t go into how to run method from resolved instances. Here in this post, I’ll walkthrough how to develop a Windows Service using <a href="http://autofac.org" target="_blank" rel="external"><code>Autofac</code></a>, <a href="http://atlas.codeplex.com" target="_blank" rel="external"><code>Atlas</code></a> and <a href="http://www.quartz-scheduler.net" target="_blank" rel="external"><code>Quartz.NET</code></a> with some corrections of Mark’s post. The source code used for this post can be found here:</p>
+<ul>
+<li><a href="https://github.com/aliencube/Windows-Service-with-Autofac-Atlas-Quartz.NET" target="_blank" rel="external">Windows Service with Autofac Atlas &amp; Quartz.NET</a></li>
+</ul>
+<h2 id="Downloading-NuGet-Packages"><a href="#Downloading-NuGet-Packages" class="headerlink" title="Downloading NuGet Packages"></a>Downloading NuGet Packages</h2><p>In order for this application to get working, several NeGet package libraries need to be installed before starting.</p>
+<ul>
+<li><code>Autofac</code>: <a href="http://www.nuget.org/packages/Autofac" target="_blank" rel="external">http://www.nuget.org/packages/Autofac</a></li>
+<li><code>Atlas</code>: <a href="http://www.nuget.org/packages/Atlas" target="_blank" rel="external">http://www.nuget.org/packages/Atlas</a></li>
+<li><code>Quartz.NET</code>: <a href="http://www.nuget.org/packages/Quartz" target="_blank" rel="external">http://www.nuget.org/packages/Quartz</a></li>
+</ul>
+<p><strong>NOTE</strong>: At the time of writing this post, the version of <code>Autofac</code> is 3.4.0 but <code>Atlas</code> only supports up to 3.3.1 version of <code>Autofac</code>. Please make sure this.</p>
+<h2 id="Preparing-Console-Application-for-Atlas"><a href="#Preparing-Console-Application-for-Atlas" class="headerlink" title="Preparing Console Application for Atlas"></a>Preparing Console Application for <code>Atlas</code></h2><p>With, <code>Atlas</code>, a console application can easily turn into a Windows Service application. So, let’s create a console application project into a solution file.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2014/08/autofac-atlas-quartz-01.png" alt=""></p>
+<p>First of all, <code>App.config</code> needs to be setup for <code>Atlas</code>.</p>
+<div><br><pre><br><configsections><br>    <section name="atlas" type="Atlas.Configuration.XmlConfiguration, Atlas"><br></section></configsections><br><br><atlas><br>    <host name="SampleWindowsService" displayname="Sample Windows Service" description="Sample Windows Service" allowmultipleinstances="false"><br>        <runtime accounttype="NetworkService" startup="Automatic"><br>    </runtime></host><br></atlas><br></pre><br></div>
+
+<p>Now, have a look at the following code snippet.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents the Windows Service application entity.<br>/// </summary><br>internal class Program<br>{<br>    private static readonly ILog Log = LogManager.GetCurrentClassLogger();<br><br>    /// <summary><br>    /// This represents the main entry point of the Windows Service application.<br>    /// </summary><br>    /// <param name="args">List of arguments.<br>    static void Main(string[] args)<br>    {<br>        try<br>        {<br>            var configuration = Host.UseAppConfig<sampleservice>() // #1<br>                                    .AllowMultipleInstances()      // #2<br>                                    .WithRegistrations(p =&gt; p.RegisterModule(new SampleModule())); // #3<br>            if (args != null &amp;&amp; args.Any())<br>                configuration = configuration.WithArguments(args); // #4<br><br>            Host.Start(configuration);                             // #5<br>        }<br>        catch (Exception ex)<br>        {<br>            Log.Fatal(“Exception during startup.”, ex);<br>            Console.ReadLine();<br>        }<br>    }<br>}<br></sampleservice></pre><br></div>
+
+<ul>
+<li><code>#1</code>: Let <code>Atlas</code> know that <code>SampleService</code> is run as a Windows Service.</li>
+<li><code>#2</code>: Let <code>Atlas</code> allow to run multiple instances. Comment or remove this, if not necessary.</li>
+<li><code>#3</code>: Register the IoC container built with <code>Autofac</code></li>
+<li><code>#4</code>: Add arguements, if provided.</li>
+<li><code>#5</code>: Start <code>Atlas</code>.</li>
+</ul>
+<p>Both <code>#1</code> and <code>#3</code> are the most crucial part of the post. <code>#1</code> defines the actual Windows Service to run and <code>#3</code> defines IoC container for dependency injection. First comes first. Let’s start with <code>#1</code>.</p>
+<h2 id="Implementing-SampleService"><a href="#Implementing-SampleService" class="headerlink" title="Implementing SampleService"></a>Implementing <code>SampleService</code></h2><p><code>SampleService</code> must implement the <code>IAmAHostedProcess</code> interface to be run on top of <code>Atlas</code>. First of all, <code>App.config</code> needs <code>CronExpression</code> value within the <code>&amp;lt;appSettings&amp;gt;</code> element.</p>
+<div><br><pre><br><appsettings><br>    <add key="CronExpression" value="0/10 * * * * ?"><br></add></appsettings><br></pre><br></div>
+
+<p>This value tells the scheduler to run the job per every 10 seconds. Now, let’s implement the <code>SampleService</code> class for the actual Windows Service.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents an entity for Windows Service hosted by Atlas.<br>/// </summary><br>internal class SampleService : IAmAHostedProcess<br>{<br>    private static readonly ILog Log = LogManager.GetCurrentClassLogger();<br><br>    /// <summary><br>    /// Gets or sets the scheduler instance.<br>    /// </summary><br>    public IScheduler Scheduler { get; set; }           // #1<br><br>    /// <summary><br>    /// Gets or sets the job factory instance.<br>    /// </summary><br>    public IJobFactory JobFactory { get; set; }         // #2<br><br>    /// <summary><br>    /// Gets or sets the job listener instance.<br>    /// </summary><br>    public IJobListener JobListener { get; set; }       // #3<br><br>    /// <summary><br>    /// Starts the Windows Service.<br>    /// </summary><br>    public void Start()<br>    {<br>        Log.Info(“Sample Windows Service starting”);<br><br>        var job = JobBuilder.Create<samplejob>()<br>                            .WithIdentity(“SampleJob”, “SampleWindowsService”)<br>                            .Build();                   // #4<br><br>        var trigger = TriggerBuilder.Create()<br>                                    .WithIdentity(“SampleTrigger”, “SampleWindowsService”)<br>                                    .WithCronSchedule(ConfigurationManager.AppSettings[“CronExpression”])   // #5<br>                                    .ForJob(“SampleJob”, “SampleWindowsService”)<br>                                    .Build();           // #6<br><br>        this.Scheduler.JobFactory = this.JobFactory;    // #7<br>        this.Scheduler.ScheduleJob(job, trigger);       // #8<br>        this.Scheduler.ListenerManager.AddJobListener(this.JobListener);    // #9<br>        this.Scheduler.Start();                         // #10<br><br>        Log.Info(“Sample Windows Service started”);<br>    }<br><br>    /// <summary><br>    /// Stops the Windows Service.<br>    /// </summary><br>    public void Stop()<br>    {<br>        Log.Info(“Sample Windows Service stopping”);<br><br>        this.Scheduler.Shutdown();<br><br>        Log.Info(“Sample Windows Service stopped”);<br>    }<br><br>    /// <summary><br>    /// Resumes the Windows Service.<br>    /// </summary><br>    public void Resume()<br>    {<br>        Log.Info(“Sample Windows Service resuming”);<br><br>        this.Scheduler.ResumeAll();<br><br>        Log.Info(“Sample Windows Service resumed”);<br>    }<br><br>    /// <summary><br>    /// Pauses the Windows Service.<br>    /// </summary><br>    public void Pause()<br>    {<br>        Log.Info(“Sample Windows Service pausing”);<br><br>        this.Scheduler.PauseAll();<br><br>        Log.Info(“Sample Windows Service paused”);<br>    }<br>}<br></samplejob></pre><br></div>
+
+<ul>
+<li><code>#1</code>: <code>IScheduler</code> instance is injected through the IoC container.*   <code>#2</code>: <code>IJobFactory</code> instance is injected through the IoC container.</li>
+<li><code>#3</code>: <code>IJobListener</code> instance is injected through the IoC container.</li>
+<li><code>#4</code>: Builds a <code>SampleJob</code> instance.</li>
+<li><code>#5</code>: Lets a trigger to run the <code>SampleJob</code> instance on the schedule using the cron expression.</li>
+<li><code>#6</code>: Builds a trigger instance.</li>
+<li><code>#7</code>: Let the <code>IScheduler</code> instance to resolve instances built through the IoC container.</li>
+<li><code>#8</code>: Schedule the <code>SampleJob</code> instance with the trigger built.</li>
+<li><code>#9</code>: Adds a <code>IJobListener</code> instance while the <code>SampleJob</code> is being executed.</li>
+<li><code>#10</code>: Starts the <code>IScheduler</code> instance.</li>
+</ul>
+<p><code>IScheduler</code> instance is defined in the IoC container and injected into the <code>SampleService</code> instance. Make sure, both <code>IJobFactory</code> and <code>IJobListener</code> instances are also injected from the IoC container. The IoC container is defined by the <code>SampleModule</code> instance which comes to the next section.</p>
+<h2 id="Implementing-SampleModule"><a href="#Implementing-SampleModule" class="headerlink" title="Implementing SampleModule"></a>Implementing <code>SampleModule</code></h2><p><code>SampleModule</code> works as an IoC container with <code>Autofac</code>. With this, all instances used in this Windows Service are registered and resolved. <code>SampleModule</code> inherits the <code>Autofac.Module</code> class.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents an entity for Autofac module.<br>/// </summary><br>internal class SampleModule : Module<br>{<br>    /// <summary><br>    /// Override to add registrations to the container.<br>    /// </summary><br>    /// <param name="builder">The builder through which components can be registered.<br>    protected override void Load(ContainerBuilder builder)<br>    {<br>        this.LoadQuartz(builder);<br>        this.LoadServices(builder);<br>        this.LoadLogicLayers(builder);<br>    }<br><br>    /// <summary><br>    /// Loads the quartz scheduler instance.<br>    /// </summary><br>    /// <param name="builder">The builder through which components can be registered.<br>    private void LoadQuartz(ContainerBuilder builder)<br>    {<br>        builder.Register(c =&gt; new StdSchedulerFactory().GetScheduler())<br>               .As<ischeduler>()<br>               .InstancePerLifetimeScope(); // #1<br>        builder.Register(c =&gt; new SampleJobFactory(ContainerProvider.Instance.ApplicationContainer))<br>               .As<ijobfactory>();          // #2<br>        builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())<br>               .Where(p =&gt; typeof (IJob).IsAssignableFrom(p))<br>               .PropertiesAutowired();      // #3<br>        builder.Register(c =&gt; new SampleJobListener(ContainerProvider.Instance))<br>               .As<ijoblistener>();         // #4<br>    }<br><br>    /// <summary><br>    /// Loads the service instance.<br>    /// </summary><br>    /// <param name="builder">The builder through which components can be registered.<br>    private void LoadServices(ContainerBuilder builder)<br>    {<br>        builder.RegisterType<sampleservice>()<br>               .As<iamahostedprocess>()<br>               .PropertiesAutowired();      // #5<br>    }<br><br>    /// <summary><br>    /// Loads the logic layers.<br>    /// </summary><br>    /// <param name="builder">The builder through which components can be registered.<br>    private void LoadLogicLayers(ContainerBuilder builder)<br>    {<br>        builder.RegisterType<samplelogiclayer>()<br>               .As<isamplelogiclayer>();    // #6<br>    }<br>}<br></isamplelogiclayer></samplelogiclayer></iamahostedprocess></sampleservice></ijoblistener></ijobfactory></ischeduler></pre><br></div>
+
+<ul>
+<li><code>#1</code>: Registers the <code>IScheduler</code> instance.</li>
+<li><code>#2</code>: Registers the <code>IJobFactory</code> instance.*   <code>#3</code>: Registers the <code>IJob</code> instance. This will resolve the <code>SampleJob</code> instance.</li>
+<li><code>#4</code>: Registers the <code>IJobListener</code> instance.</li>
+<li><code>#5</code>: Registers the <code>IAmAHostedProcess</code> instance. This will resolve the <code>SampleService</code> instance.</li>
+<li><code>#6</code>: Registers the <code>ISampleLogicLayer</code> instance. This will run the actual business logic.</li>
+</ul>
+<p>When <code>#5</code> is resolved, its properties will get <code>IScheduler</code>, <code>IJobFactory</code> and <code>IJobListener</code> instances injected. Let’s move onto the <code>SampleJob</code> class to execute the <strong>real</strong> job.</p>
+<h2 id="Implementing-SampleJob"><a href="#Implementing-SampleJob" class="headerlink" title="Implementing SampleJob"></a>Implementing <code>SampleJob</code></h2><p>The <code>SampleJob</code> class actually runs the business logic instance resolved from the IoC container.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents an entity for the job that actually performs for the schedule.<br>/// </summary><br>internal class SampleJob : IJob<br>{<br>    private static readonly ILog Log = LogManager.GetCurrentClassLogger();<br><br>    public ISampleLogicLayer SampleLogicLayer { get; set; }<br><br>    /// <summary><br>    /// Called by the <c>Quartz.IScheduler</c> when a <c>Quartz.ITrigger</c> fires that is associated with the <c>Quartz.IJob</c>.<br>    /// </summary><br>    /// <param name="context">JobExecutionContext instance<br>    public void Execute(IJobExecutionContext context)<br>    {<br>        Log.Info(“Application executing”);<br><br>        this.SampleLogicLayer.Run();<br><br>        Log.Info(“Application executed”);<br>    }<br>}<br></pre><br></div>
+
+<p>And the <code>SampleJob</code> needs the <code>ISampleLogicLayer</code> instance.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This provides interfaces to the SampleLogicLayer class.<br>/// </summary><br>internal interface ISampleLogicLayer : IDisposable<br>{<br>    /// <summary><br>    /// Runs the business logic here.<br>    /// </summary><br>    void Run();<br>}<br></pre><br></div>
+
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents an entity that performs the actual business logic.<br>/// </summary><br>internal class SampleLogicLayer : ISampleLogicLayer<br>{<br>    private static readonly ILog Log = LogManager.GetCurrentClassLogger();<br><br>    /// <summary><br>    /// Runs the business logic here.<br>    /// </summary><br>    public void Run()<br>    {<br>        Log.Info(“This has been run”);<br>    }<br><br>    /// <summary><br>    /// Disposes resources not being used any more.<br>    /// </summary><br>    public void Dispose()<br>    {<br>    }<br>}<br></pre><br></div>
+
+<p>Therefore, when the <code>SampleJob</code> instance is executed, it calls the method <code>Run()</code> of the <code>ISampleLogicLayer</code> instance. The <code>Run()</code> method writes a log into the logger instance. So far, we’ve implemented the <strong>core</strong> logics. However, <code>Quartz.NET</code> needs to know whether all necessary instances are resolved or not. Let’s move onto the next section to let <code>Quartz.NET</code> know the IoC container is ready for use.</p>
+<h2 id="Implementing-SampleJobFactory"><a href="#Implementing-SampleJobFactory" class="headerlink" title="Implementing SampleJobFactory"></a>Implementing <code>SampleJobFactory</code></h2><p>In order to let the <code>IScheduler</code> know all necessary instances are ready for use, an <code>IJobFactory</code> instance needs to be injected. Here’s a code snippet for the class implementing the <code>IJobFactory</code> interface.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents an entity to let <c>IScheduler</c> know the IoC container is ready for use.<br>/// </summary><br>internal class SampleJobFactory : IJobFactory<br>{<br>    private readonly IContainer _container;<br><br>    /// <summary><br>    /// Initialises a new instance of the SampleJobFactory class.<br>    /// </summary><br>    /// <param name="container">IoC container instance.<br>    public SampleJobFactory(IContainer container)<br>    {<br>        if (container == null)<br>            throw new ArgumentNullException(“container”);<br><br>        this._container = container;<br>    }<br><br>    /// <summary><br>    /// Creates a new job resolved from the IoC container.<br>    /// </summary><br>    /// <param name="bundle">Trigger fired bundle instance.<br>    /// <param name="scheduler">Scheduler instance.<br>    /// <returns>Returns a new job resolved from the IoC container.</returns><br>    public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)<br>    {<br>        if (bundle == null)<br>            throw new ArgumentNullException(“bundle”);<br><br>        return (IJob)this._container.Resolve(bundle.JobDetail.JobType); // #1<br>    }<br><br>    /// <summary><br>    /// Allows the the job factory to destroy/cleanup the job if needed.<br>    /// </summary><br>    /// <param name="job">Job instance.<br>    public void ReturnJob(IJob job)<br>    {<br>    }<br>}<br></pre><br></div>
+
+<ul>
+<li><code>#1</code>: Returns the resolved job instance. In our example, it returns the <code>SampleJob</code> instance resolved from the IoC container.</li>
+</ul>
+<p>Let’s move back to the <code>SampleService</code> section above. The <code>SampleService</code> gets this <code>IJobFactory</code> instance as a parameter and the <code>IJobFactory</code> instance is set to the <code>ISchedule</code>‘s <code>JobFactory</code> property. By doing so, instances that <code>Autofac</code> IoC container register and resolve are notified to the scheduler so that it runs the job correctly. Now, as a final section, implement <code>SampleJobListener</code> class.</p>
+<h2 id="Implementing-SampleJobListener"><a href="#Implementing-SampleJobListener" class="headerlink" title="Implementing SampleJobListener"></a>Implementing <code>SampleJobListener</code></h2><p><code>SampleJobListener</code> makes sure the job instance gets all necessary instances injected before executing the job and disposes all relevant resources after being executed.</p>
+<div><br><pre lang="csharp"><br>/// <summary><br>/// This represents an entity for event handling while a job is running.<br>/// </summary><br>internal class SampleJobListener : IJobListener<br>{<br>    private readonly IContainerProvider _provider;<br><br>    private IUnitOfWorkContainer _container;<br><br>    /// <summary><br>    /// Initialises a new instance of the SampleJobListener class.<br>    /// </summary><br>    /// <param name="provider">Container provider instance.<br>    public SampleJobListener(IContainerProvider provider)<br>    {<br>        if (provider == null)<br>            throw new ArgumentNullException(“provider”);<br><br>        this._provider = provider;<br>        this.Name = “SampleJobListener”;<br>    }<br><br>    /// <summary><br>    /// Gets the name of the job listener.<br>    /// </summary><br>    public string Name { get; private set; }<br><br>    /// <summary><br>    /// Called by the <c>Quartz.IScheduler</c> when a <c>Quartz.IJobDetail</c> is about to be executed<br>    /// (an associated <c>Quartz.ITrigger</c> has occurred).<br>    /// </summary><br>    /// <param name="context">JobExecutionContext instance.<br>    /// <remarks><br>    /// This method will not be invoked if the execution of the Job was vetoed by a <c>Quartz.ITriggerListener</c>.<br>    /// </remarks><br>    public void JobToBeExecuted(IJobExecutionContext context)<br>    {<br>        this._container = this._provider.CreateUnitOfWork();<br>        this._container.InjectUnsetProperties(context.JobInstance);<br>    }<br><br>    /// <summary><br>    /// Called by the <c>Quartz.IScheduler</c> when a <c>Quartz.IJobDetail</c> was about to be executed<br>    /// (an associated <c>Quartz.ITrigger</c> has occurred), but a <c>Quartz.ITriggerListener</c> vetoed it’s execution.<br>    /// </summary><br>    /// <param name="context">JobExecutionContext instance.<br>    public void JobExecutionVetoed(IJobExecutionContext context)<br>    {<br>    }<br><br>    /// <summary><br>    /// Called by the <c>Quartz.IScheduler</c> after a <c>Quartz.IJobDetail</c> has been executed,<br>    /// and be for the associated <c>Quartz.Spi.IOperableTrigger</c>‘s <c>Quartz.Spi.IOperableTrigger.Triggered(Quartz.ICalendar)</c> method has been called.<br>    /// </summary><br>    /// <param name="context">JobExecutionContext instance.<br>    /// <param name="jobException">JobExecutionException instance.<br>    public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)<br>    {<br>        this._container.Dispose();<br>    }<br>}<br></pre><br></div>
+
+<p>As above, all the implementations have been completed. It’s now time to run this. In order to debug this application on the console mode, simple put the parameter of <code>console</code> on the debug mode.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2014/08/autofac-atlas-quartz-02.png" alt=""></p>
+<p>Make sure that <code>App.config</code> needs to have the logging configuration like below.</p>
+<div><br><pre><br><configsections><br>    <sectiongroup name="common"><br>        <section name="logging" type="Common.Logging.ConfigurationSectionHandler, Common.Logging"><br>    </section></sectiongroup><br></configsections><br><br><common><br>    <logging><br>        <factoryadapter type="Common.Logging.Simple.ConsoleOutLoggerFactoryAdapter, Common.Logging"><br>            <arg key="level" value="DEBUG"><br>            <arg key="showLogName" value="true"><br>            <arg key="showDataTime" value="true"><br>            <arg key="dateTimeFormat" value="yyyy/MM/dd HH:mm:ss:fff"><br>        </arg></arg></arg></arg></factoryadapter><br>    </logging><br></common><br></pre><br></div>
+
+<p>Once it’s done, punch <code>F5</code> key for debug. Then you’ll see the result similar to the following screen:</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2014/08/autofac-atlas-quartz-03.png" alt=""></p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Implementing a Windows Service with <code>Autofac</code>, <code>Atlas</code> and <code>Quartz.NET</code> is a little bit tricky, as transferring IoC container needs some extra implementation. This sample application can provide a brief overview how to use those libraries in a consolidated manner. Once you are familiar with them, your Windows Service application that needs scheduling will be a lot easier to develop.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://markjourdan.name/a-quick-way-to-create-a-windows-service-using-autofac-quartz-and-atlas" target="_blank" rel="external">A quick way to create a windows service using Autofac, Quartz and Atlas</a></li>
+<li><a href="http://www.experts-exchange.com/Programming/Languages/C_Sharp/Q_28150675.html" target="_blank" rel="external">How do I create a Quartz.NET’s job requiring injection with autofac</a></li>
+<li><a href="http://stackoverflow.com/questions/16653178/how-to-schedule-task-using-quartz-net-2-0" target="_blank" rel="external">How to schedule task using Quartz.net 2.0?</a></li>
+<li><a href="http://stackoverflow.com/questions/16908342/how-do-i-create-a-quartz-nets-job-requiring-injection-with-autofac" target="_blank" rel="external">How do I create a Quartz.NET’s job requiring injection with autofac</a></li>
+<li><a href="http://netcommon.sourceforge.net/docs/2.1.0/reference/html/ch01.html#logging-usage" target="_blank" rel="external">Using Common.Logging API</a></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://facebook.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://linkedin.com/company/dev-kimchi" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2014/09/02/playing-group-by-and-having-clauses-with-linq/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Playing GROUP BY and HAVING Clauses with LINQ
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://www.moneystock.net/wp_e/wp-content/uploads/2016/07/bower2.jpg)" alt="How to use bower to manage front-end library in Visual Studio 2015 : for beginners" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="title">How to use bower to manage front-end library in Visual Studio 2015 : for beginners</a></p>
+                            <p class="item-date"><time datetime="2016-07-20T12:02:03.000Z" itemprop="datePublished">2016-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-02.png)" alt="Building .NET Core Application on Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="title">Building .NET Core Application on Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-08T23:00:09.000Z" itemprop="datePublished">2016-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/08/installing-mono-into-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-01.png)" alt="Installing Mono into Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/08/installing-mono-into-amazon-linux/" class="title">Installing Mono into Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-07T23:00:26.000Z" itemprop="datePublished">2016-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="title">Entity Framework Core Data Migration through KUDU</a></p>
+                            <p class="item-date"><time datetime="2016-06-06T23:00:46.000Z" itemprop="datePublished">2016-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/long-path-exception-01.png)" alt="Long Path Error While Publishing ASP.NET Core RC1 Applications" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="title">Long Path Error While Publishing ASP.NET Core RC1 Applications</a></p>
+                            <p class="item-date"><time datetime="2016-06-05T23:00:45.000Z" itemprop="datePublished">2016-06-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET-Core/" style="font-size: 10px;">.NET Core</a> <a href="/tags/API-Management/" style="font-size: 10px;">API Management</a> <a href="/tags/ARM/" style="font-size: 10px;">ARM</a> <a href="/tags/ASP-NET-5/" style="font-size: 10px;">ASP.NET 5</a> <a href="/tags/ASP-NET-Core/" style="font-size: 12.5px;">ASP.NET Core</a> <a href="/tags/ASP-NET-MVC/" style="font-size: 10px;">ASP.NET MVC</a> <a href="/tags/ASP-NET-MVC-6/" style="font-size: 10px;">ASP.NET MVC 6</a> <a href="/tags/AWS-Lambda/" style="font-size: 10px;">AWS Lambda</a> <a href="/tags/Amazon-Linux/" style="font-size: 12.5px;">Amazon Linux</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/App-Only/" style="font-size: 10px;">App-Only</a> <a href="/tags/Atlas/" style="font-size: 10px;">Atlas</a> <a href="/tags/Authentication/" style="font-size: 10px;">Authentication</a> <a href="/tags/Auto-Loading/" style="font-size: 10px;">Auto Loading</a> <a href="/tags/AutoRest/" style="font-size: 10px;">AutoRest</a> <a href="/tags/Autofac/" style="font-size: 15px;">Autofac</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Azure/" style="font-size: 12.5px;">Azure</a> <a href="/tags/Azure-Resource-Manager/" style="font-size: 10px;">Azure Resource Manager</a> <a href="/tags/Azure-SQL/" style="font-size: 12.5px;">Azure SQL</a> <a href="/tags/BizTalk/" style="font-size: 15px;">BizTalk</a> <a href="/tags/Bower/" style="font-size: 12.5px;">Bower</a> <a href="/tags/CDATA/" style="font-size: 10px;">CDATA</a> <a href="/tags/CLR-Assembly/" style="font-size: 10px;">CLR Assembly</a> <a href="/tags/CQRS-Pattern/" style="font-size: 10px;">CQRS Pattern</a> <a href="/tags/Cloud-Design-Pattern/" style="font-size: 10px;">Cloud Design Pattern</a> <a href="/tags/Configurability/" style="font-size: 10px;">Configurability</a> <a href="/tags/CrmSvcUtil-exe/" style="font-size: 10px;">CrmSvcUtil.exe</a> <a href="/tags/DI/" style="font-size: 10px;">DI</a> <a href="/tags/Data-Migration/" style="font-size: 10px;">Data Migration</a> <a href="/tags/DataAnnotations/" style="font-size: 10px;">DataAnnotations</a> <a href="/tags/Dependency-Injection/" style="font-size: 12.5px;">Dependency Injection</a> <a href="/tags/Deserialisation/" style="font-size: 10px;">Deserialisation</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Dynamics-CRM/" style="font-size: 10px;">Dynamics CRM</a> <a href="/tags/Dynamics-CRM-Online/" style="font-size: 10px;">Dynamics CRM Online</a> <a href="/tags/Email/" style="font-size: 10px;">Email</a> <a href="/tags/Entity-Context-Library/" style="font-size: 10px;">Entity Context Library</a> <a href="/tags/Entity-Framework/" style="font-size: 12.5px;">Entity Framework</a> <a href="/tags/Event-Sourcing-Pattern/" style="font-size: 10px;">Event Sourcing Pattern</a> <a href="/tags/Extensibility/" style="font-size: 10px;">Extensibility</a> <a href="/tags/Extensions/" style="font-size: 10px;">Extensions</a> <a href="/tags/External-Activator/" style="font-size: 17.5px;">External Activator</a> <a href="/tags/Filtering/" style="font-size: 10px;">Filtering</a> <a href="/tags/Flexibility/" style="font-size: 10px;">Flexibility</a> <a href="/tags/Fluent-API/" style="font-size: 10px;">Fluent API</a> <a href="/tags/FluentValidation/" style="font-size: 10px;">FluentValidation</a> <a href="/tags/ForEach/" style="font-size: 10px;">ForEach</a> <a href="/tags/GROUP-BY/" style="font-size: 10px;">GROUP BY</a> <a href="/tags/Global-Exception-Handling/" style="font-size: 10px;">Global Exception Handling</a> <a href="/tags/Graph-API/" style="font-size: 10px;">Graph API</a> <a href="/tags/Grunt/" style="font-size: 10px;">Grunt</a> <a href="/tags/Gulp/" style="font-size: 12.5px;">Gulp</a> <a href="/tags/HAL/" style="font-size: 10px;">HAL</a> <a href="/tags/HAVING/" style="font-size: 10px;">HAVING</a> <a href="/tags/Integration/" style="font-size: 10px;">Integration</a> <a href="/tags/Inversion-of-Control/" style="font-size: 10px;">Inversion of Control</a> <a href="/tags/IoC/" style="font-size: 12.5px;">IoC</a> <a href="/tags/JSON-Web-Token/" style="font-size: 10px;">JSON Web Token</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/KUDU/" style="font-size: 10px;">KUDU</a> <a href="/tags/LESS/" style="font-size: 10px;">LESS</a> <a href="/tags/LINQ/" style="font-size: 10px;">LINQ</a> <a href="/tags/Logic-Apps/" style="font-size: 10px;">Logic Apps</a> <a href="/tags/MS-SQL/" style="font-size: 10px;">MS-SQL</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/Microsoft-Graph/" style="font-size: 10px;">Microsoft Graph</a> <a href="/tags/Module/" style="font-size: 10px;">Module</a> <a href="/tags/Mono/" style="font-size: 12.5px;">Mono</a> <a href="/tags/O365/" style="font-size: 10px;">O365</a> <a href="/tags/Office-365/" style="font-size: 10px;">Office 365</a> <a href="/tags/Parallel/" style="font-size: 10px;">Parallel</a> <a href="/tags/PathTooLongException/" style="font-size: 10px;">PathTooLongException</a> <a href="/tags/Plugins/" style="font-size: 10px;">Plugins</a> <a href="/tags/PowerShell/" style="font-size: 15px;">PowerShell</a> <a href="/tags/Quartz-NET/" style="font-size: 10px;">Quartz.NET</a> <a href="/tags/RC1/" style="font-size: 10px;">RC1</a> <a href="/tags/REST-API/" style="font-size: 10px;">REST API</a> <a href="/tags/ReCaptcha-NET/" style="font-size: 10px;">ReCaptcha.NET</a> <a href="/tags/Resource-Group/" style="font-size: 10px;">Resource Group</a> <a href="/tags/SELECT/" style="font-size: 10px;">SELECT</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 20px;">SQL Server</a> <a href="/tags/Serialisation/" style="font-size: 10px;">Serialisation</a> <a href="/tags/Service-Broker/" style="font-size: 17.5px;">Service Broker</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SharePoint/" style="font-size: 10px;">SharePoint</a> <a href="/tags/Swagger/" style="font-size: 12.5px;">Swagger</a> <a href="/tags/Swashbuckle/" style="font-size: 10px;">Swashbuckle</a> <a href="/tags/Testability/" style="font-size: 12.5px;">Testability</a> <a href="/tags/Tips-amp-Tricks/" style="font-size: 10px;">Tips &amp; Tricks</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Visual-Studio-2013/" style="font-size: 10px;">Visual Studio 2013</a> <a href="/tags/WCF/" style="font-size: 10px;">WCF</a> <a href="/tags/WHERE/" style="font-size: 10px;">WHERE</a> <a href="/tags/Web-API/" style="font-size: 12.5px;">Web API</a> <a href="/tags/Windows-API-Code-Pack/" style="font-size: 10px;">Windows API Code Pack</a> <a href="/tags/Windows-Service/" style="font-size: 10px;">Windows Service</a> <a href="/tags/XML/" style="font-size: 12.5px;">XML</a> <a href="/tags/asp-net/" style="font-size: 10px;">asp.net</a> <a href="/tags/concourrency/" style="font-size: 10px;">concourrency</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.5px;">npm</a> <a href="/tags/reCaptcha/" style="font-size: 10px;">reCaptcha</a> <a href="/tags/visual-studio-2015/" style="font-size: 10px;">visual studio 2015</a> <a href="/tags/vs-2015/" style="font-size: 10px;">vs 2015</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 DevKimchi</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'devkimchi';
+    
+    
+    var disqus_url = 'http://devkimchi.com/2014/08/26/developing-windows-service-with-autofac-atlas-and-quartz-net/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Validating ASP.NET MVC Models with FluentValidation | DevKimchi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Dependency Injection,IoC,ASP.NET MVC,DataAnnotations,DI,FluentValidation,Inversion of Control" />
+    
+    <meta name="description" content="While Data Annotations.aspx) approach is generally used for user input data validation, FluentValidation that I’m going to introduce in this article might be better for delelopers with more benefits.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Validating ASP.NET MVC Models with FluentValidation">
+<meta property="og:url" content="http://devkimchi.com/2015/06/17/validating-asp-net-mvc-models-with-fluent-validation/index.html">
+<meta property="og:site_name" content="DevKimchi">
+<meta property="og:description" content="While Data Annotations.aspx) approach is generally used for user input data validation, FluentValidation that I’m going to introduce in this article might be better for delelopers with more benefits.">
+<meta property="og:updated_time" content="2016-09-13T12:11:48.453Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Validating ASP.NET MVC Models with FluentValidation">
+<meta name="twitter:description" content="While Data Annotations.aspx) approach is generally used for user input data validation, FluentValidation that I’m going to introduce in this article might be better for delelopers with more benefits.">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="DevKimchi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-54189949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Fermentation: Turning MS Tech Stack, .NET and Web into Something</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://devkimchi.com"></form>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Uncategorized/">Uncategorized</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-validating-asp-net-mvc-models-with-fluent-validation" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Validating ASP.NET MVC Models with FluentValidation
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-subtitle">
+                <a href="/2015/06/17/validating-asp-net-mvc-models-with-fluent-validation/" class="article-date">
+    <time datetime="2015-06-17T04:08:52.000Z" itemprop="datePublished">2015-06-17</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASP-NET-MVC/">ASP.NET MVC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DI/">DI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DataAnnotations/">DataAnnotations</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dependency-Injection/">Dependency Injection</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FluentValidation/">FluentValidation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Inversion-of-Control/">Inversion of Control</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IoC/">IoC</a></li></ul>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>While <a href="https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations(v=vs.110" target="_blank" rel="external">Data Annotations</a>.aspx) approach is generally used for user input data validation, <a href="https://github.com/JeremySkinner/FluentValidation" target="_blank" rel="external">FluentValidation</a> that I’m going to introduce in this article might be better for delelopers with more benefits. Source code used in this post can be found at:</p>
+<ul>
+<li><a href="https://github.com/devkimchi/FluentValidation-Sample" target="_blank" rel="external">https://github.com/devkimchi/FluentValidation-Sample</a></li>
+</ul>
+<h2 id="Typical-User-Input-Data-Validation-with-Data-Annotations"><a href="#Typical-User-Input-Data-Validation-with-Data-Annotations" class="headerlink" title="Typical User Input Data Validation with Data Annotations"></a>Typical User Input Data Validation with Data Annotations</h2><p>Generally, for user input validation, data annotations approach like below is used. Each property that needs to be validated is required to have attribute classes:</p>
+<pre><code>public class RegisterViewModel
+{
+  [Required]
+  [DataType(DataType.EmailAddress)]
+  [Display(Name = &quot;Email&quot;)]
+  public string Email { get; set; }
+
+  [Required]
+  [StringLength(100, ErrorMessage = &quot;The {0} must be at least {2} characters long.&quot;, MinimumLength = 6)]
+  [DataType(DataType.Password)]
+  [Display(Name = &quot;Password&quot;)]
+  public string Password { get; set; }
+
+  [Compare(&quot;Password&quot;, ErrorMessage = &quot;The password and confirmation password do not match.&quot;)]
+  [DataType(DataType.Password)]
+  [Display(Name = &quot;Confirm password&quot;)]
+  public string ConfirmPassword { get; set; }
+}
+`&lt;/pre&gt;
+
+Attribute classes like `Required`, `StringLength` and `Compare` are responsible for data validation. If we use them, `ModelState.IsValid` value in the controller can be either `true` (valid) or `false` (invalid).
+
+&lt;pre&gt;`[HttpPost]
+public virtual async Task&amp;lt;ActionResult&amp;gt; Register(RegisterViewModel form)
+{
+  var vm = form;
+  if (ModelState.IsValid)
+  {
+    vm.Validated = true;
+  }
+  return View(vm);
+}
+`&lt;/pre&gt;
+
+It&apos;s perfectly OK for data validation. However, personally, this looks too verbose to me. I need a single point for data validation. If you are like me, [`FluentValidation`](https://github.com/JeremySkinner/FluentValidation) will be yours. Let&apos;s change this model using `FluentValidation`
+
+## User Input Data Validation with FluentValidation
+
+You might need to download two packages from [NuGet](https://nuget.org):
+</code></pre><ul>
+<li><a href="https://www.nuget.org/packages/FluentValidation/" target="_blank" rel="external">FluentValidation</a></li>
+<li><p><a href="https://www.nuget.org/packages/FluentValidation.MVC5/" target="_blank" rel="external">FluentValidation.MVC5</a></p>
+<p>Once you download both, then the <code>RegisterViewModel</code> class can be changed to:</p>
+<pre>`[Validator(typeof(RegisterViewModelValidator))]
+public class RegisterViewModel
+{
+  [Display(Name = "Email")]
+  public string Email { get; set; }
+
+  [DataType(DataType.Password)]
+  [Display(Name = "Password")]
+  public string Password { get; set; }
+
+  [DataType(DataType.Password)]
+  [Display(Name = "Confirm password")]
+  public string ConfirmPassword { get; set; }
+}
+`</pre>
+
+<p>As you can see, <code>Validator(typeof(RegisterViewModelValidator))</code> has been added and <code>Required</code>, <code>StringLength</code> and <code>Compare</code> have been removed. Yes, that’s right. <code>RegisterViewModelValidator</code> defines all the validation rules like:</p>
+<pre>`public class RegisterViewModelValidator : AbstractValidator&lt;RegisterViewModel&gt;
+{
+  public RegisterViewModelValidator()
+  {
+    RuleFor(x =&gt; x.Email)
+      .NotNull().WithMessage("Required")
+      .EmailAddress().WithMessage("Invalid email");
+
+    RuleFor(x =&gt; x.Password)
+      .NotNull().WithMessage("Required")
+      .Length(6, 100).WithMessage("Too short or too long");
+
+    RuleFor(x =&gt; x.ConfirmPassword)
+      .NotNull().WithMessage("Required")
+      .Equal(x =&gt; x.Password).WithMessage("Not matched");
+  }
+}
+`</pre>
+
+<p>Once of benefits using <code>FluentValidation</code> is that setting validation rules looks very intuitive. For example, the <code>Email</code> property is <strong>required</strong> (Not NULL) and <strong>formatted as an email</strong>. In addition to this, each validation rule has its own error message when the validation fails. Once validators are defined, <code>Application_Start()</code> from <code>Global.asax.cs</code> should call <code>FluentValidationModelValidatorProvider.Configure()</code> to activate those validators defined.</p>
+<pre>`public class MvcApplication : System.Web.HttpApplication
+{
+  protected void Application_Start()
+  {
+    ...
+
+    FluentValidationModelValidatorProvider.Configure();
+  }
+}
+`</pre>
+
+<p>Now, <code>ModelState.IsValid</code> property still has <code>true</code> or <code>false</code> after the validation. Let’s move on to setting up views.</p>
+<h2 id="Setting-up-Views-for-User-Input"><a href="#Setting-up-Views-for-User-Input" class="headerlink" title="Setting up Views for User Input"></a>Setting up Views for User Input</h2><p>Corresponding Razore view might look like this:</p>
+<p><pre>`@using (Html.BeginForm(MVC.Home.ActionNames.Register, MVC.Home.Name, FormMethod.Post))<br>{<br>  &lt;div&gt;</pre></p>
+<pre><code>@Html.LabelFor(m =&amp;gt; m.Email)
+&amp;lt;div&amp;gt;
+  @Html.TextBoxFor(m =&amp;gt; m.Email, new Dictionary&amp;lt;string, object&amp;gt;() { { &quot;placeholder&quot;, &quot;Email&quot; } })
+  @Html.ValidationMessageFor(m =&amp;gt; m.Email)
+&amp;lt;/div&amp;gt;
+</code></pre><p>  &lt;/div&gt;<br>  &lt;div&gt;</p>
+<pre><code>@Html.LabelFor(m =&amp;gt; m.Password)
+&amp;lt;div&amp;gt;
+  @Html.PasswordFor(m =&amp;gt; m.Password, new Dictionary&amp;lt;string, object&amp;gt;() { { &quot;placeholder&quot;, &quot;Password&quot; } })
+  @Html.ValidationMessageFor(m =&amp;gt; m.Password)
+&amp;lt;/div&amp;gt;
+</code></pre><p>  &lt;/div&gt;<br>  &lt;div&gt;</p>
+<pre><code>@Html.LabelFor(m =&amp;gt; m.ConfirmPassword)
+&amp;lt;div&amp;gt;
+  @Html.PasswordFor(m =&amp;gt; m.ConfirmPassword, new Dictionary&amp;lt;string, object&amp;gt;() { { &quot;placeholder&quot;, &quot;Confirm Password&quot; } })
+  @Html.ValidationMessageFor(m =&amp;gt; m.ConfirmPassword)
+&amp;lt;/div&amp;gt;
+</code></pre><p>  &lt;/div&gt;<br>  &lt;div&gt;</p>
+<pre><code>&amp;lt;div&amp;gt;
+  &amp;lt;input type=&quot;submit&quot; name=&quot;Submit&quot; /&amp;gt;
+&amp;lt;/div&amp;gt;
+</code></pre><p>  &lt;/div&gt;<br>}<br>`</p>
+<p>This will be rendered in a web browser like:</p>
+<pre>`&lt;form action="/Home/Register" method="post"&gt;
+  &lt;div&gt;
+    &lt;label for="Email"&gt;Email&lt;/label&gt;
+    &lt;div&gt;
+      &lt;input data-val="true" data-val-email="Invalid email" data-val-required="Required" id="Email" name="Email" placeholder="Email" type="text" value="" /&gt;
+      &lt;span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"/&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="Password"&gt;Password&lt;/label&gt;
+    &lt;div&gt;
+      &lt;input data-val="true" data-val-length="Too short or too long" data-val-length-max="100" data-val-length-min="6" data-val-required="Required" id="Password" name="Password" placeholder="Password" type="password" /&gt;
+      &lt;span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"/&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;label for="ConfirmPassword"&gt;Confirm password&lt;/label&gt;
+    &lt;div&gt;
+      &lt;input data-val="true" data-val-equalto="Not matched" data-val-equalto-other="*.Password" data-val-required="Required" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm Password" type="password" /&gt;
+      &lt;span class="field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"/&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;div&gt;
+      &lt;input type="submit" name="Submit" /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+`</pre>
+
+<p>Therefore, the controller performs server-side validation. If you add a javascript validation library like <a href="https://www.nuget.org/packages/jQuery.Validation/" target="_blank" rel="external">jQuery Validation</a>, client-side validation can also be easily developed.</p>
+<h2 id="Setting-up-IoC-Container-for-Dependency-Injection-for-Validation"><a href="#Setting-up-IoC-Container-for-Dependency-Injection-for-Validation" class="headerlink" title="Setting up IoC Container for Dependency Injection for Validation"></a>Setting up IoC Container for Dependency Injection for Validation</h2><p>Any validator using <code>FluentValidation</code> library inherits <code>AbstractValidator&amp;lt;T&amp;gt;</code> which implements the <code>IValidator</code> interface. It’s great because classes implementing interfaces can easily be both unit-testable and dependency-injectable. Let’s have a look how to setup IoC containers for those validators using <a href="http://autofac.org" target="_blank" rel="external">Autofac</a>. First of all, change <code>Application_Start()</code> from <code>Global.asax.cs</code> like below:</p>
+<pre>`private void Application_Start(object sender, EventArgs e)
+{
+  ...
+
+  DependencyConfig.RegisterDependencies();
+}
+`</pre>
+
+<p>As you can see, <code>FluentValidationModelValidatorProvider.Configure()</code> within the <code>Application_Start()</code> method has been replaced with <code>DependencyConfig.RegisterDependencies()</code>. <code>DependencyConfig</code> class under the <code>App_Start</code> directory might look like:</p>
+<pre>`public static class DependencyConfig
+{
+  public static void RegisterDependencies()
+  {
+    var builder = new ContainerBuilder();
+
+    ...
+
+    RegisterValidators(builder);
+
+    var container = builder.Build();
+
+    DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+    RegisterValidationProviders(container);
+  }
+
+  private static void RegisterValidators(ContainerBuilder builder)
+  {
+    builder.RegisterType&lt;RegisterViewModelValidator&gt;()
+           .Keyed&lt;IValidator&gt;(typeof(IValidator&lt;RegisterViewModel&gt;))
+           .As&lt;IValidator&gt;();
+  }
+
+  ...
+}
+`</pre>
+
+<p>For more details to build dependencies can be found at <code>Autofac</code> website. Instead, we’re focusing on two private methods &ndash; <code>RegisterValidators()</code> and <code>RegisterValidationProviders()</code>. All validator classes should go into the <code>RegisterValidators()</code> method for IoC registration. The <code>RegisterValidationProviders()</code> method actually activates validators implemented by <code>FluentValidation</code> library like:</p>
+<pre>`private static void RegisterValidationProviders(IContainer container)
+{
+  ModelValidatorProviders.Providers.Clear(); #1
+  DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false; #2
+  var fvmvp = new FluentValidationModelValidatorProvider(new ValidatorFactory(container))
+              {
+                AddImplicitRequiredValidator = false,
+              }; #3
+  ModelValidatorProviders.Providers.Add(fvmvp); #4
+}
+`</pre>
+</li>
+<li><p><code>#1</code>: There might be existing validator providers within memory. This clears the memory first.</p>
+</li>
+<li><code>#2</code>: This explicitly declares to perform <code>DataAnnotations</code> model validation.</li>
+<li><code>#3</code>: This creates validators provided by <code>FluentValidation</code> using <code>ValidatorFactory</code> class. This also explicitly declares to perform validations.</li>
+<li><p><code>#4</code>: This adds validators using <code>FluentValidation</code> library.</p>
+<p>There might be many validator classes inheriting <code>AbstractValidator&amp;lt;T&amp;gt;</code> for each model. Therefore, all registered validators into <code>Autofac</code> should be instantiated by this <code>ValidatorFactory</code> class. Here’s the details:</p>
+<pre>`public class ValidatorFactory : ValidatorFactoryBase
+{
+  private readonly IContainer container;
+
+  public ValidatorFactory(IContainer container)
+  {
+    this.container = container;
+  }
+
+  public override IValidator CreateInstance(Type validatorType)
+  {
+    var validator = container.ResolveOptionalKeyed&lt;IValidator&gt;(validatorType);
+    return validator;
+  }
+}
+`</pre>
+
+<p>As stated above, this is possible because all validators implements <code>IValidator</code> interface. Once we completes this step, we should remove all <code>[Validator(typeof(TValidator))]</code> attribute classes on models. For this case, it will be <code>[Validator(typeof(RegisterViewModelValidator))]</code>.</p>
+<h2 id="Unit-Testing-Validators"><a href="#Unit-Testing-Validators" class="headerlink" title="Unit Testing Validators"></a>Unit Testing Validators</h2><p>As <code>IValidator</code> interface gives us much flexibility, we can also perform unit tests. With <a href="http://nunit.org" target="_blank" rel="external">NUnit</a> and <a href="https://github.com/dennisdoomen/fluentassertions" target="_blank" rel="external">FluentAssertions</a>, we can easily write unit tests.</p>
+<pre>`[TestFixture]
+public class RegisterModelValidatorTest
+{
+  private IValidator _validator;
+
+  [SetUp]
+  public void Init()
+  {
+    this._validator = new RegisterViewModelValidator();
+  }
+
+  [Test]
+  [TestCase("email", "password", "password", false)]
+  [TestCase(null, "password", "password", false)]
+  [TestCase("e@mail.com", "password", "password", true)]
+  public void RegisterViewModel_Should_Be_Validated(string email,
+                                                    string password,
+                                                    string confirmPassword,
+                                                    bool expected)
+  {
+    var vm = new RegisterViewModel()
+                 {
+                   Email = email,
+                   Password = password,
+                   ConfirmPassword = confirmPassword,
+                 };
+    var result = this._validator.Validate(vm);
+    result.IsValid.Should().Be(expected);
+  }
+`</pre>
+
+<p>Any validator implementing the <code>IValidator</code> interface has the <code>Validate()</code> method that actually performs the validation. Like above, the model is validated and tested. However, this conducts validation for whole properties in the model. If I want to test only one property, what can I do? <code>FluentValidation</code> provides a few helper methods for this case.</p>
+</li>
+<li><p><code>ShouldHaveValidationErrorFor()</code></p>
+</li>
+<li><code>ShouldNotHaveValidationErrorFor()</code></li>
+<li><p><code>ShouldHaveChildValidator()</code></p>
+<p>Therefore, testing one property can be written like:</p>
+<pre>`[Test]
+[TestCase("password", false)]
+[TestCase(null, true)]
+public void Password_Should_Be_Validated(string password, bool exceptionExpected)
+{
+  var validator = this._validator as RegisterViewModelValidator;
+  try
+  {
+    validator.ShouldNotHaveValidationErrorFor(p =&gt; p.Password, password);
+  }
+  catch (ValidationTestException ex)
+  {
+    if (exceptionExpected)
+    {
+      Assert.Pass();
+    }
+    else
+    {
+      Assert.Fail(ex.Message);
+    }
+  }
+  catch (Exception ex)
+  {
+    Assert.Fail(ex.Message);
+  }
+}
+`</pre>
+
+<p>The <code>Password</code> property of the <code>RegisterViewModel</code> model has a validation rule in <code>RegisterViewModelValidator</code> class. Hence, it will be tested. The helper method, <code>ShouldNotHaveValidationErrorFor()</code>, will be passed, if the validation succeeds. However, if the validation fails, it will throw the <code>ValidationTestException</code> exception. If this is expected, it passes the test; otherwise it fails the test. Likewise, the <code>ConfirmPassword</code> property can be tested like below:</p>
+<p><pre>`[Test]<br>[TestCase(“password”, “password”, false)]<br>[TestCase(“password”, “different”, true)]<br>public void ConfirmPassword_Should_Be_Validated(string password, string confirmPassword, bool exceptionExpected)<br>{<br>  var validator = this._validator as RegisterViewModelValidator;<br>  try<br>  {</pre></p>
+<pre><code>validator.ShouldNotHaveValidationErrorFor(
+    p =&amp;gt; p.ConfirmPassword,
+    new RegisterViewModel() { Password = password, ConfirmPassword = confirmPassword });
+</code></pre><p>  }<br>  catch (ValidationTestException ex)<br>  {</p>
+<pre><code>if (exceptionExpected)
+{
+    Assert.Pass();
+}
+else
+{
+    Assert.Fail(ex.Message);
+}
+</code></pre><p>  }<br>  catch (Exception ex)<br>  {</p>
+<pre><code>Assert.Fail(ex.Message);
+</code></pre><p>  }<br>}</p>
+</li>
+</ul>
+<p>So far, we’ve take a brief look at using <code>FluentValidation</code> library for our ASP.NET MVC web app. Instead of scattering those validation rules all over the places, we can place them into one spot so that we can get benefits, in terms of maintainablilty.</p>
+<p>One of downsides using <code>FluentValidation</code> is that it supports Web API with many limitations. Of course, we can validate models through Web API with many walkarounds. I don’t think, however, it’s efficient. According to the good news from the library creator/maintainer, Jeremy Skinner, <a href="https://github.com/JeremySkinner/FluentValidation/issues/80" target="_blank" rel="external">he has been focusing on ASP.NET MVC 6 with new MVC/Web API features</a>. So, we hope the next version of <code>FluentValidation</code> will fully support both MVC and Web API.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://facebook.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://linkedin.com/company/dev-kimchi" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/08/31/create-biztalk-groups-and-accounts-using-powershell/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Create BizTalk Groups and Accounts using PowerShell
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2015/04/22/dot-net-wrapper-for-googles-new-recaptcha-api/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">.NET Wrapper for Google&#39;s New reCaptcha API</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://www.moneystock.net/wp_e/wp-content/uploads/2016/07/bower2.jpg)" alt="How to use bower to manage front-end library in Visual Studio 2015 : for beginners" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="title">How to use bower to manage front-end library in Visual Studio 2015 : for beginners</a></p>
+                            <p class="item-date"><time datetime="2016-07-20T12:02:03.000Z" itemprop="datePublished">2016-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-02.png)" alt="Building .NET Core Application on Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="title">Building .NET Core Application on Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-08T23:00:09.000Z" itemprop="datePublished">2016-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/08/installing-mono-into-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-01.png)" alt="Installing Mono into Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/08/installing-mono-into-amazon-linux/" class="title">Installing Mono into Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-07T23:00:26.000Z" itemprop="datePublished">2016-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="title">Entity Framework Core Data Migration through KUDU</a></p>
+                            <p class="item-date"><time datetime="2016-06-06T23:00:46.000Z" itemprop="datePublished">2016-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/long-path-exception-01.png)" alt="Long Path Error While Publishing ASP.NET Core RC1 Applications" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="title">Long Path Error While Publishing ASP.NET Core RC1 Applications</a></p>
+                            <p class="item-date"><time datetime="2016-06-05T23:00:45.000Z" itemprop="datePublished">2016-06-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET-Core/" style="font-size: 10px;">.NET Core</a> <a href="/tags/API-Management/" style="font-size: 10px;">API Management</a> <a href="/tags/ARM/" style="font-size: 10px;">ARM</a> <a href="/tags/ASP-NET-5/" style="font-size: 10px;">ASP.NET 5</a> <a href="/tags/ASP-NET-Core/" style="font-size: 12.5px;">ASP.NET Core</a> <a href="/tags/ASP-NET-MVC/" style="font-size: 10px;">ASP.NET MVC</a> <a href="/tags/ASP-NET-MVC-6/" style="font-size: 10px;">ASP.NET MVC 6</a> <a href="/tags/AWS-Lambda/" style="font-size: 10px;">AWS Lambda</a> <a href="/tags/Amazon-Linux/" style="font-size: 12.5px;">Amazon Linux</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/App-Only/" style="font-size: 10px;">App-Only</a> <a href="/tags/Atlas/" style="font-size: 10px;">Atlas</a> <a href="/tags/Authentication/" style="font-size: 10px;">Authentication</a> <a href="/tags/Auto-Loading/" style="font-size: 10px;">Auto Loading</a> <a href="/tags/AutoRest/" style="font-size: 10px;">AutoRest</a> <a href="/tags/Autofac/" style="font-size: 15px;">Autofac</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Azure/" style="font-size: 12.5px;">Azure</a> <a href="/tags/Azure-Resource-Manager/" style="font-size: 10px;">Azure Resource Manager</a> <a href="/tags/Azure-SQL/" style="font-size: 12.5px;">Azure SQL</a> <a href="/tags/BizTalk/" style="font-size: 15px;">BizTalk</a> <a href="/tags/Bower/" style="font-size: 12.5px;">Bower</a> <a href="/tags/CDATA/" style="font-size: 10px;">CDATA</a> <a href="/tags/CLR-Assembly/" style="font-size: 10px;">CLR Assembly</a> <a href="/tags/CQRS-Pattern/" style="font-size: 10px;">CQRS Pattern</a> <a href="/tags/Cloud-Design-Pattern/" style="font-size: 10px;">Cloud Design Pattern</a> <a href="/tags/Configurability/" style="font-size: 10px;">Configurability</a> <a href="/tags/CrmSvcUtil-exe/" style="font-size: 10px;">CrmSvcUtil.exe</a> <a href="/tags/DI/" style="font-size: 10px;">DI</a> <a href="/tags/Data-Migration/" style="font-size: 10px;">Data Migration</a> <a href="/tags/DataAnnotations/" style="font-size: 10px;">DataAnnotations</a> <a href="/tags/Dependency-Injection/" style="font-size: 12.5px;">Dependency Injection</a> <a href="/tags/Deserialisation/" style="font-size: 10px;">Deserialisation</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Dynamics-CRM/" style="font-size: 10px;">Dynamics CRM</a> <a href="/tags/Dynamics-CRM-Online/" style="font-size: 10px;">Dynamics CRM Online</a> <a href="/tags/Email/" style="font-size: 10px;">Email</a> <a href="/tags/Entity-Context-Library/" style="font-size: 10px;">Entity Context Library</a> <a href="/tags/Entity-Framework/" style="font-size: 12.5px;">Entity Framework</a> <a href="/tags/Event-Sourcing-Pattern/" style="font-size: 10px;">Event Sourcing Pattern</a> <a href="/tags/Extensibility/" style="font-size: 10px;">Extensibility</a> <a href="/tags/Extensions/" style="font-size: 10px;">Extensions</a> <a href="/tags/External-Activator/" style="font-size: 17.5px;">External Activator</a> <a href="/tags/Filtering/" style="font-size: 10px;">Filtering</a> <a href="/tags/Flexibility/" style="font-size: 10px;">Flexibility</a> <a href="/tags/Fluent-API/" style="font-size: 10px;">Fluent API</a> <a href="/tags/FluentValidation/" style="font-size: 10px;">FluentValidation</a> <a href="/tags/ForEach/" style="font-size: 10px;">ForEach</a> <a href="/tags/GROUP-BY/" style="font-size: 10px;">GROUP BY</a> <a href="/tags/Global-Exception-Handling/" style="font-size: 10px;">Global Exception Handling</a> <a href="/tags/Graph-API/" style="font-size: 10px;">Graph API</a> <a href="/tags/Grunt/" style="font-size: 10px;">Grunt</a> <a href="/tags/Gulp/" style="font-size: 12.5px;">Gulp</a> <a href="/tags/HAL/" style="font-size: 10px;">HAL</a> <a href="/tags/HAVING/" style="font-size: 10px;">HAVING</a> <a href="/tags/Integration/" style="font-size: 10px;">Integration</a> <a href="/tags/Inversion-of-Control/" style="font-size: 10px;">Inversion of Control</a> <a href="/tags/IoC/" style="font-size: 12.5px;">IoC</a> <a href="/tags/JSON-Web-Token/" style="font-size: 10px;">JSON Web Token</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/KUDU/" style="font-size: 10px;">KUDU</a> <a href="/tags/LESS/" style="font-size: 10px;">LESS</a> <a href="/tags/LINQ/" style="font-size: 10px;">LINQ</a> <a href="/tags/Logic-Apps/" style="font-size: 10px;">Logic Apps</a> <a href="/tags/MS-SQL/" style="font-size: 10px;">MS-SQL</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/Microsoft-Graph/" style="font-size: 10px;">Microsoft Graph</a> <a href="/tags/Module/" style="font-size: 10px;">Module</a> <a href="/tags/Mono/" style="font-size: 12.5px;">Mono</a> <a href="/tags/O365/" style="font-size: 10px;">O365</a> <a href="/tags/Office-365/" style="font-size: 10px;">Office 365</a> <a href="/tags/Parallel/" style="font-size: 10px;">Parallel</a> <a href="/tags/PathTooLongException/" style="font-size: 10px;">PathTooLongException</a> <a href="/tags/Plugins/" style="font-size: 10px;">Plugins</a> <a href="/tags/PowerShell/" style="font-size: 15px;">PowerShell</a> <a href="/tags/Quartz-NET/" style="font-size: 10px;">Quartz.NET</a> <a href="/tags/RC1/" style="font-size: 10px;">RC1</a> <a href="/tags/REST-API/" style="font-size: 10px;">REST API</a> <a href="/tags/ReCaptcha-NET/" style="font-size: 10px;">ReCaptcha.NET</a> <a href="/tags/Resource-Group/" style="font-size: 10px;">Resource Group</a> <a href="/tags/SELECT/" style="font-size: 10px;">SELECT</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 20px;">SQL Server</a> <a href="/tags/Serialisation/" style="font-size: 10px;">Serialisation</a> <a href="/tags/Service-Broker/" style="font-size: 17.5px;">Service Broker</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SharePoint/" style="font-size: 10px;">SharePoint</a> <a href="/tags/Swagger/" style="font-size: 12.5px;">Swagger</a> <a href="/tags/Swashbuckle/" style="font-size: 10px;">Swashbuckle</a> <a href="/tags/Testability/" style="font-size: 12.5px;">Testability</a> <a href="/tags/Tips-amp-Tricks/" style="font-size: 10px;">Tips &amp; Tricks</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Visual-Studio-2013/" style="font-size: 10px;">Visual Studio 2013</a> <a href="/tags/WCF/" style="font-size: 10px;">WCF</a> <a href="/tags/WHERE/" style="font-size: 10px;">WHERE</a> <a href="/tags/Web-API/" style="font-size: 12.5px;">Web API</a> <a href="/tags/Windows-API-Code-Pack/" style="font-size: 10px;">Windows API Code Pack</a> <a href="/tags/Windows-Service/" style="font-size: 10px;">Windows Service</a> <a href="/tags/XML/" style="font-size: 12.5px;">XML</a> <a href="/tags/asp-net/" style="font-size: 10px;">asp.net</a> <a href="/tags/concourrency/" style="font-size: 10px;">concourrency</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.5px;">npm</a> <a href="/tags/reCaptcha/" style="font-size: 10px;">reCaptcha</a> <a href="/tags/visual-studio-2015/" style="font-size: 10px;">visual studio 2015</a> <a href="/tags/vs-2015/" style="font-size: 10px;">vs 2015</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 DevKimchi</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'devkimchi';
+    
+    
+    var disqus_url = 'http://devkimchi.com/2015/06/17/validating-asp-net-mvc-models-with-fluent-validation/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

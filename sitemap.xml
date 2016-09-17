@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/09/building-dotnet-core-application-on-amazon-linux/</loc>
+    
+    <lastmod>2016-09-13T23:02:26.718Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/09/23/15-most-useful-visual-studio-extensions/</loc>
+    
+    <lastmod>2016-09-13T12:45:00.392Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.473Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/08/installing-mono-into-amazon-linux/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.469Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.468Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/05/creating-accounts-on-azure-sql-database-through-powershell/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.468Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/07/entity-framewoork-core-data-migration-through-kudu/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.468Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/01/global-exception-handling-on-aspnet-core-applications/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.466Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/06/02/creating-login-account-and-user-on-azure-sql/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.465Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/05/31/when-importing-swagger-20-docs-into-api-management/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.464Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/12/16/implementing-application-with-office365-graph-api-in-app-only-mode/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.462Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2016/02/14/microsoft-integration-roadmap-and-choosing-right-technologies-for-cloud-integration/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.462Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/12/02/creating-entity-filtered-service-context-for-dynamics-crm-2015/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.461Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/10/28/creating-service-contract-with-autorest-swagger-and-hal/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.458Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/03/15/how-to-throttle-a-section-in-wcf/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.457Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/12/02/resource-manager-cmdlets-in-azure-powershell-1-0/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.456Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/11/17/building-spa-with-event-sourcing-and-cqrs-pattern/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.456Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/06/17/validating-asp-net-mvc-models-with-fluent-validation/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.453Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/08/31/create-biztalk-groups-and-accounts-using-powershell/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.453Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/08/26/developing-windows-service-with-autofac-atlas-and-quartz-net/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.452Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/04/22/dot-net-wrapper-for-googles-new-recaptcha-api/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.449Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/03/04/can-json-web-token-jwt-be-an-alternative-for-session/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.448Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/12/02/sending-emails-from-sql-server-through-a-testable-and-configurable-clr-assembly/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.445Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2015/01/06/integrating-grunt-and-bower-with-visual-studio-2013/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.443Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/12/01/entity-framework-with-reusable-entity-context-library/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.442Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/17/tips-tricks-use-xdocument-load-for-xml-handling/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.439Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/27/generating-xml-cdata-element-from-select-statement/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.437Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/11/service-broker-external-activator-for-sql-server-step-by-step-5/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/10/23/simple-non-blocking-parallel-foreach/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.433Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/09/service-broker-external-activator-for-sql-server-step-by-step-3/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.433Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/10/service-broker-external-activator-for-sql-server-step-by-step-4/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.433Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/08/service-broker-external-activator-for-sql-server-step-by-step-2/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.430Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/11/08/service-broker-external-activator-for-sql-server-step-by-step-1/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.426Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/09/04/changes-of-sharepoint-integration-in-biztalk-2013-and-r2/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.422Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/09/02/playing-group-by-and-having-clauses-with-linq/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.420Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/10/06/windows-api-code-pack-1-1-restored/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.418Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://devkimchi.com/2014/09/25/dynamic-module-loading-with-autofac/</loc>
+    
+    <lastmod>2016-09-13T12:11:48.417Z</lastmod>
+    
+  </url>
+  
+</urlset>

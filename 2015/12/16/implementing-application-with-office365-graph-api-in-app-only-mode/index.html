@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Running Application with Office 365 Graph API in App-only Mode | DevKimchi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Web API,App-Only,ASP.NET 5,ASP.NET MVC 6,Graph API,Microsoft Graph,O365,Office 365" />
+    
+    <meta name="description" content="This is a cross-posting of Implementing Application with Office 365 Graph API in App-only Mode at Kloud.
+
+Microsoft has recently release Microsoft Graph to easily integrate Office 365 resources with">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Running Application with Office 365 Graph API in App-only Mode">
+<meta property="og:url" content="http://devkimchi.com/2015/12/16/implementing-application-with-office365-graph-api-in-app-only-mode/index.html">
+<meta property="og:site_name" content="DevKimchi">
+<meta property="og:description" content="This is a cross-posting of Implementing Application with Office 365 Graph API in App-only Mode at Kloud.
+
+Microsoft has recently release Microsoft Graph to easily integrate Office 365 resources with">
+<meta property="og:image" content="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-01.png">
+<meta property="og:updated_time" content="2016-09-13T12:11:48.462Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Running Application with Office 365 Graph API in App-only Mode">
+<meta name="twitter:description" content="This is a cross-posting of Implementing Application with Office 365 Graph API in App-only Mode at Kloud.
+
+Microsoft has recently release Microsoft Graph to easily integrate Office 365 resources with">
+<meta name="twitter:image" content="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-01.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="DevKimchi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/lightgallery/css/lightgallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-54189949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Fermentation: Turning MS Tech Stack, .NET and Web into Something</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="hidden" name="sitesearch" value="http://devkimchi.com"></form>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Uncategorized/">Uncategorized</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-implementing-application-with-office365-graph-api-in-app-only-mode" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Running Application with Office 365 Graph API in App-only Mode
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-subtitle">
+                <a href="/2015/12/16/implementing-application-with-office365-graph-api-in-app-only-mode/" class="article-date">
+    <time datetime="2015-12-16T09:13:16.000Z" itemprop="datePublished">2015-12-16</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASP-NET-5/">ASP.NET 5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASP-NET-MVC-6/">ASP.NET MVC 6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/App-Only/">App-Only</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Graph-API/">Graph API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Microsoft-Graph/">Microsoft Graph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/O365/">O365</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Office-365/">Office 365</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web-API/">Web API</a></li></ul>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <blockquote>
+<p>This is a cross-posting of <a href="http://blog.kloud.com.au/2015/12/14/implementing-application-with-o365-graph-api-in-app-only-mode" target="_blank" rel="external">Implementing Application with Office 365 Graph API in App-only Mode</a> at <a href="http://blog.kloud.com.au" target="_blank" rel="external">Kloud</a>.</p>
+</blockquote>
+<p>Microsoft has recently release <a href="https://graph.microsoft.com" target="_blank" rel="external">Microsoft Graph</a> to easily integrate Office 365 resources with applications. Graph API basically provides one single endpoint to call bunch of Web APIs to get access Office 365 resources.</p>
+<p>In order to use Graph API from another application, the application must be registered in <a href="https://azure.microsoft.com/en-us/services/active-directory" target="_blank" rel="external">Azure Active Directory (AAD)</a> first. When the application is registered, we can choose how the application is permitted to use resources &ndash; application permissions or delegate permissions. The latter one typically requires users to provide user credentials like username and password to get a proper access token. However, there must be requirements that the application doesn’t require users credentials but should directly access to Office 365 resources, which is called <code>app-only</code> mode. For example, a back-end Web API application doesn’t require user credentials to communicate with Graph API. There are many articles on the Internet dealing with user credentials but not many articles coping with this <code>app-only</code> mode. In this post, I will walk through how to register an application as <code>app-only</code> mode and consume Graph API through the registered application.</p>
+<blockquote>
+<p>The sample code used here can be found <a href="https://github.com/devkimchi/Graph-API-App-Only-Web-API-Sample" target="_blank" rel="external">here</a>. This sample application is built-in ASP.NET 5 and ASP.NET MVC 6. Therefore, in order to get the best development experience, I would recommend using <a href="https://www.visualstudio.com" target="_blank" rel="external">Visual Studio 2015</a>.</p>
+</blockquote>
+<h2 id="Registering-Application"><a href="#Registering-Application" class="headerlink" title="Registering Application"></a>Registering Application</h2><p>OK. First thing goes first. As the sample application is using AAD and Graph API, it’s a mandatory to register this app on your AAD first. Please follow the steps below.</p>
+<h3 id="Create-User-Account-on-AAD"><a href="#Create-User-Account-on-AAD" class="headerlink" title="Create User Account on AAD"></a>Create User Account on AAD</h3><blockquote>
+<p>You can skip this step, if you have already got a user account on AAD.<br>  <strong>NOTE</strong>: Microsoft Account won’t work with this sample app.</p>
+</blockquote>
+<p>Create a user account on AAD tenant. Once created, the user account should be a co-administrator of the Azure subscription that is currently being used.</p>
+<h3 id="Register-Application-to-AAD"><a href="#Register-Application-to-AAD" class="headerlink" title="Register Application to AAD"></a>Register Application to AAD</h3><ul>
+<li>Login to <a href="https://manage.windowsazure.com" target="_blank" rel="external">Azure Management Portal</a>.</li>
+<li>Select Active Directory.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-01.png" alt=""></p>
+<ul>
+<li>Create a new application.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-02.png" alt=""></p>
+<ul>
+<li>Choose the <code>Add an application my organization is developing</code> option.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-03.png" alt=""></p>
+<ul>
+<li>Enter the application name like <code>Graph API App-only Sample</code> and select the <code>Web Application and/or Web API</code> option.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-04.png" alt=""></p>
+<ul>
+<li>Enter <code>https://(tenant-name)/GraphApiAppOnlySample</code> for both fields. <code>(tenant-name)</code> should look like <code>contoso.onmicrosoft.com</code>. Please note that both won’t be used at all.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-05.png" alt=""></p>
+<p>Now the app has been registered.</p>
+<h3 id="Configure-Application"><a href="#Configure-Application" class="headerlink" title="Configure Application"></a>Configure Application</h3><ul>
+<li>Once the app is registered, click the <code>configure</code> tab.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-06.png" alt=""></p>
+<ul>
+<li>Get the <code>Client ID</code>.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-07.png" alt=""></p>
+<ul>
+<li>Get the secret key. Note that the key is only displayed once after click the <code>Save</code> button at the bottom.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-08.png" alt=""></p>
+<ul>
+<li>Add another application called <code>Microsoft Graph</code></li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-10.png" alt=""></p>
+<ul>
+<li>Give “Read directory data” permission to <code>Microsoft Graph</code>, as this permission is only necessary to run the sample app.</li>
+</ul>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-11.png" alt=""></p>
+<blockquote>
+<p><strong>ATTENTION</strong>: In the production environment, appropriate number of application permissions <strong>MUST</strong> be given to avoid any security breach.</p>
+</blockquote>
+<p>The app has been configured.</p>
+<h3 id="Update-Settings-in-Sample-Application"><a href="#Update-Settings-in-Sample-Application" class="headerlink" title="Update Settings in Sample Application"></a>Update Settings in Sample Application</h3><p>As the app has been registered and configured, the sample Web API app should be setup with appropriate settings. Firstly, open <code>appsettings.json</code></p>
+<p><a href="https://gist.github.com/justinyoo/6cf1a84889c954bf84bd" target="_blank" rel="external">https://gist.github.com/justinyoo/6cf1a84889c954bf84bd</a></p>
+<p>Then change values:</p>
+<ul>
+<li><code>Tenant</code>: <code>contoso.onmicrosoft.com</code> to your tenant name.</li>
+<li><code>ClientId</code>: Client ID from the app.</li>
+<li><code>ClientSecret</code>: Secret key from the app.</li>
+<li><code>AppId</code>: <code>contoso.onmicrosoft.com</code> to your tenant name.</li>
+</ul>
+<h3 id="Trust-IIS-or-IIS-Express-with-a-Self-signed-Certificate"><a href="#Trust-IIS-or-IIS-Express-with-a-Self-signed-Certificate" class="headerlink" title="Trust IIS or IIS Express with a Self-signed Certificate"></a>Trust IIS or IIS Express with a Self-signed Certificate</h3><blockquote>
+<ul>
+<li>You can skip this step, if you intend to publish this app to Azure.</li>
+<li>You can skip this step, if you already have a self-signed certificate on your root certificate storage.</li>
+</ul>
+</blockquote>
+<p>All communications with AAD and Graph API are performed through a secure channel (SSL/TLS), this sample app <strong>MUST</strong> be signed with a root certificate. However, this is a developer’s local environment, so a self-signed certificate should be issued and stored as a root certificate. If you don’t store the self-signed certificate, you’ll see the following message popped up when you run VS2015.</p>
+<p><img src="http://blob.devkimchi.com/devkimchiwp/2015/12/graph-api-app-only-sample-12.png" alt=""></p>
+<p>The following steps show how to register self-signed certificate to the root certificate store using PowerShell.</p>
+<h4 id="Check-Self-signed-Certificate"><a href="#Check-Self-signed-Certificate" class="headerlink" title="Check Self-signed Certificate"></a>Check Self-signed Certificate</h4><p>First, Check if you have a self-signed certificate in your personal certificate store.</p>
+<p><a href="https://gist.github.com/justinyoo/d05587bd30807df09925" target="_blank" rel="external">https://gist.github.com/justinyoo/d05587bd30807df09925</a></p>
+<p>If there’s no certificate with name of <code>CN=localhost</code>, you should create the one using <code>makecert.exe</code>. The easiest way to execute <code>makecert.exe</code> is to run <code>Developer Command Prompt for VS2015</code>.</p>
+<p><a href="https://gist.github.com/justinyoo/98646323b78c729ed359" target="_blank" rel="external">https://gist.github.com/justinyoo/98646323b78c729ed359</a></p>
+<ul>
+<li><code>-r</code>: Create a self signed certificate.</li>
+<li><code>-pe</code>: Mark generated private key as exportable.</li>
+<li><code>-n</code>: Certificate subject X509 name. eg) <code>-n &quot;CN=localhost&quot;</code></li>
+<li><code>-b</code>: Start of the validity period in <code>mm/dd/yyyy</code> format; default to now.</li>
+<li><code>-e</code>: End of validity period in <code>mm/dd/yyyy</code> format; defaults to 2039.</li>
+<li><code>-ss</code>: Subject’s certificate store name that stores the output certificate. eg) <code>-ss My</code></li>
+<li><code>-len</code>: Generated Key Length (Bits). Default to <code>2048</code> for ‘RSA’ and <code>512</code> for ‘DSS’.</li>
+</ul>
+<h4 id="Store-Self-signed-Certificate-to-Root-Store"><a href="#Store-Self-signed-Certificate-to-Root-Store" class="headerlink" title="Store Self-signed Certificate to Root Store"></a>Store Self-signed Certificate to Root Store</h4><p>Second, store the self-signed certificate to the root store.</p>
+<p><a href="https://gist.github.com/justinyoo/2d04aa42e5d28d6a7bc6" target="_blank" rel="external">https://gist.github.com/justinyoo/2d04aa42e5d28d6a7bc6</a></p>
+<p>Finally, you can verify the self-signed certificate has been stored into the root store.</p>
+<p><a href="https://gist.github.com/justinyoo/47c8e1b42defa37f08eb" target="_blank" rel="external">https://gist.github.com/justinyoo/47c8e1b42defa37f08eb</a></p>
+<h3 id="Build-and-Run-Sample-Web-API-Application"><a href="#Build-and-Run-Sample-Web-API-Application" class="headerlink" title="Build and Run Sample Web API Application"></a>Build and Run Sample Web API Application</h3><p>All setup has been completed! Now, build the solution in Visual Studio 2015 and punch <code>F5</code> key to get into the <code>Debug</code> mode. Then you’ll get a JSON response of your tenant organisation details. How does it work? Let’s look into the code.</p>
+<h2 id="Get-Access-Token-from-AAD-Using-ADAL"><a href="#Get-Access-Token-from-AAD-Using-ADAL" class="headerlink" title="Get Access Token from AAD Using ADAL"></a>Get Access Token from AAD Using ADAL</h2><p>In order to get an access token from AAD, we need to setup <code>AuthenticationContext</code> instance and call a method to get one. The code snippet below is an extract from the sample application.</p>
+<p><a href="https://gist.github.com/justinyoo/40b18d2a61aef293db81" target="_blank" rel="external">https://gist.github.com/justinyoo/40b18d2a61aef293db81</a></p>
+<p>The <code>graphApp</code> instance is created from <code>appsettings.json</code> and injected to the controller. With this instance, both <code>AuthenticationContext</code> instance and <code>ClientCredential</code> instance have been created. Note that the <code>ClientCredential</code> instance only uses <code>clientId</code> and <code>clientSecret</code>, not user credentials. In other words, this sample application won’t require any user to login and provide their login details. Let’s see the actual <code>Get()</code> method.</p>
+<p><a href="https://gist.github.com/justinyoo/52c28375b1867b24f650" target="_blank" rel="external">https://gist.github.com/justinyoo/52c28375b1867b24f650</a></p>
+<p>This is the part to get access token. The <code>AuthenticationContext</code> instance sends a request for Graph API with the <code>ClientCredential</code> instance only containing <code>clientId</code> and <code>clientSecret</code>. When the authentication fails, the <code>Get()</code> action will return the exception details as a JSON format. The <code>authResult</code> instance now contains access token.</p>
+<h2 id="Call-Graph-API-with-Access-Token"><a href="#Call-Graph-API-with-Access-Token" class="headerlink" title="Call Graph API with Access Token"></a>Call Graph API with Access Token</h2><p>Now, we have the access token. In the same action method, let’s see how it is consumed to call Graph API.</p>
+<p><a href="https://gist.github.com/justinyoo/913586550283cb6519fb" target="_blank" rel="external">https://gist.github.com/justinyoo/913586550283cb6519fb</a></p>
+<p>The access token is set to the request header. In this sample code, we call <code>organization</code> details through Graph API. If you use <a href="http://www.telerik.com/fiddler" target="_blank" rel="external">Fiddler</a>, send a request to the application and you will see the full response details.</p>
+<p>So far, we have had a brief look how to implement a simple Web API application as <code>app-only</code> mode to consume Graph API. As stated above, this sample application is not for production use unless proper permissions are given. Once all appropriate permissions are setup, you can easily customise this app for your integration purpose. Hope this will help your development.</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+    <div class="a2a_kit a2a_default_style">
+    <a class="a2a_dd" href="https://www.addtoany.com/share">Share</a>
+    <span class="a2a_divider"></span>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_google_plus"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_button_tumblr"></a>
+</div>
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+<style>
+    .a2a_menu {
+        border-radius: 4px;
+    }
+    .a2a_menu a {
+        margin: 2px 0;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 4px;
+        color: inherit !important;
+        font-family: 'Microsoft Yahei';
+    }
+    #a2apage_dropdown {
+        margin: 10px 0;
+    }
+    .a2a_mini_services {
+        padding: 10px;
+    }
+    a.a2a_i,
+    i.a2a_i {
+        width: 122px;
+        line-height: 16px;
+    }
+    a.a2a_i .a2a_svg,
+    a.a2a_more .a2a_svg {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        vertical-align: top;
+        background-size: 16px;
+    }
+    a.a2a_i {
+        border: none !important;
+    }
+    a.a2a_menu_show_more_less {
+        margin: 0;
+        padding: 10px 0;
+        line-height: 16px;
+    }
+    .a2a_mini_services:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+    .a2a_mini_services{*+height:1%;}
+</style>
+
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://facebook.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/devkimchi" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="linkedin" href="https://linkedin.com/company/dev-kimchi" target="_blank">
+                        <i class="icon fa fa-linkedin"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/atom.xml" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/02/14/microsoft-integration-roadmap-and-choosing-right-technologies-for-cloud-integration/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Microsoft Integration Roadmap and choosing right technologies for Cloud Integration
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2015/12/02/resource-manager-cmdlets-in-azure-powershell-1-0/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Resource Manager Cmdlets in Azure PowerShell 1.0</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://www.moneystock.net/wp_e/wp-content/uploads/2016/07/bower2.jpg)" alt="How to use bower to manage front-end library in Visual Studio 2015 : for beginners" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/07/20/how-to-use-bower-to-manage-front-end-library-in-visual-studio-2015-for-beginners/" class="title">How to use bower to manage front-end library in Visual Studio 2015 : for beginners</a></p>
+                            <p class="item-date"><time datetime="2016-07-20T12:02:03.000Z" itemprop="datePublished">2016-07-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-02.png)" alt="Building .NET Core Application on Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/09/building-dotnet-core-application-on-amazon-linux/" class="title">Building .NET Core Application on Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-08T23:00:09.000Z" itemprop="datePublished">2016-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/08/installing-mono-into-amazon-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/installing-mono-into-amazon-linux-01.png)" alt="Installing Mono into Amazon Linux" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/08/installing-mono-into-amazon-linux/" class="title">Installing Mono into Amazon Linux</a></p>
+                            <p class="item-date"><time datetime="2016-06-07T23:00:26.000Z" itemprop="datePublished">2016-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/07/entity-framewoork-core-data-migration-through-kudu/" class="title">Entity Framework Core Data Migration through KUDU</a></p>
+                            <p class="item-date"><time datetime="2016-06-06T23:00:46.000Z" itemprop="datePublished">2016-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://blob.devkimchi.com/devkimchiwp/2016/06/long-path-exception-01.png)" alt="Long Path Error While Publishing ASP.NET Core RC1 Applications" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Uncategorized/">Uncategorized</a></p>
+                            <p class="item-title"><a href="/2016/06/06/long-path-error-while-publishing-aspnet-core-rc1-applications/" class="title">Long Path Error While Publishing ASP.NET Core RC1 Applications</a></p>
+                            <p class="item-date"><time datetime="2016-06-05T23:00:45.000Z" itemprop="datePublished">2016-06-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET-Core/" style="font-size: 10px;">.NET Core</a> <a href="/tags/API-Management/" style="font-size: 10px;">API Management</a> <a href="/tags/ARM/" style="font-size: 10px;">ARM</a> <a href="/tags/ASP-NET-5/" style="font-size: 10px;">ASP.NET 5</a> <a href="/tags/ASP-NET-Core/" style="font-size: 12.5px;">ASP.NET Core</a> <a href="/tags/ASP-NET-MVC/" style="font-size: 10px;">ASP.NET MVC</a> <a href="/tags/ASP-NET-MVC-6/" style="font-size: 10px;">ASP.NET MVC 6</a> <a href="/tags/AWS-Lambda/" style="font-size: 10px;">AWS Lambda</a> <a href="/tags/Amazon-Linux/" style="font-size: 12.5px;">Amazon Linux</a> <a href="/tags/AngularJS/" style="font-size: 10px;">AngularJS</a> <a href="/tags/App-Only/" style="font-size: 10px;">App-Only</a> <a href="/tags/Atlas/" style="font-size: 10px;">Atlas</a> <a href="/tags/Authentication/" style="font-size: 10px;">Authentication</a> <a href="/tags/Auto-Loading/" style="font-size: 10px;">Auto Loading</a> <a href="/tags/AutoRest/" style="font-size: 10px;">AutoRest</a> <a href="/tags/Autofac/" style="font-size: 15px;">Autofac</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Azure/" style="font-size: 12.5px;">Azure</a> <a href="/tags/Azure-Resource-Manager/" style="font-size: 10px;">Azure Resource Manager</a> <a href="/tags/Azure-SQL/" style="font-size: 12.5px;">Azure SQL</a> <a href="/tags/BizTalk/" style="font-size: 15px;">BizTalk</a> <a href="/tags/Bower/" style="font-size: 12.5px;">Bower</a> <a href="/tags/CDATA/" style="font-size: 10px;">CDATA</a> <a href="/tags/CLR-Assembly/" style="font-size: 10px;">CLR Assembly</a> <a href="/tags/CQRS-Pattern/" style="font-size: 10px;">CQRS Pattern</a> <a href="/tags/Cloud-Design-Pattern/" style="font-size: 10px;">Cloud Design Pattern</a> <a href="/tags/Configurability/" style="font-size: 10px;">Configurability</a> <a href="/tags/CrmSvcUtil-exe/" style="font-size: 10px;">CrmSvcUtil.exe</a> <a href="/tags/DI/" style="font-size: 10px;">DI</a> <a href="/tags/Data-Migration/" style="font-size: 10px;">Data Migration</a> <a href="/tags/DataAnnotations/" style="font-size: 10px;">DataAnnotations</a> <a href="/tags/Dependency-Injection/" style="font-size: 12.5px;">Dependency Injection</a> <a href="/tags/Deserialisation/" style="font-size: 10px;">Deserialisation</a> <a href="/tags/DevOps/" style="font-size: 10px;">DevOps</a> <a href="/tags/Dynamics-CRM/" style="font-size: 10px;">Dynamics CRM</a> <a href="/tags/Dynamics-CRM-Online/" style="font-size: 10px;">Dynamics CRM Online</a> <a href="/tags/Email/" style="font-size: 10px;">Email</a> <a href="/tags/Entity-Context-Library/" style="font-size: 10px;">Entity Context Library</a> <a href="/tags/Entity-Framework/" style="font-size: 12.5px;">Entity Framework</a> <a href="/tags/Event-Sourcing-Pattern/" style="font-size: 10px;">Event Sourcing Pattern</a> <a href="/tags/Extensibility/" style="font-size: 10px;">Extensibility</a> <a href="/tags/Extensions/" style="font-size: 10px;">Extensions</a> <a href="/tags/External-Activator/" style="font-size: 17.5px;">External Activator</a> <a href="/tags/Filtering/" style="font-size: 10px;">Filtering</a> <a href="/tags/Flexibility/" style="font-size: 10px;">Flexibility</a> <a href="/tags/Fluent-API/" style="font-size: 10px;">Fluent API</a> <a href="/tags/FluentValidation/" style="font-size: 10px;">FluentValidation</a> <a href="/tags/ForEach/" style="font-size: 10px;">ForEach</a> <a href="/tags/GROUP-BY/" style="font-size: 10px;">GROUP BY</a> <a href="/tags/Global-Exception-Handling/" style="font-size: 10px;">Global Exception Handling</a> <a href="/tags/Graph-API/" style="font-size: 10px;">Graph API</a> <a href="/tags/Grunt/" style="font-size: 10px;">Grunt</a> <a href="/tags/Gulp/" style="font-size: 12.5px;">Gulp</a> <a href="/tags/HAL/" style="font-size: 10px;">HAL</a> <a href="/tags/HAVING/" style="font-size: 10px;">HAVING</a> <a href="/tags/Integration/" style="font-size: 10px;">Integration</a> <a href="/tags/Inversion-of-Control/" style="font-size: 10px;">Inversion of Control</a> <a href="/tags/IoC/" style="font-size: 12.5px;">IoC</a> <a href="/tags/JSON-Web-Token/" style="font-size: 10px;">JSON Web Token</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/KUDU/" style="font-size: 10px;">KUDU</a> <a href="/tags/LESS/" style="font-size: 10px;">LESS</a> <a href="/tags/LINQ/" style="font-size: 10px;">LINQ</a> <a href="/tags/Logic-Apps/" style="font-size: 10px;">Logic Apps</a> <a href="/tags/MS-SQL/" style="font-size: 10px;">MS-SQL</a> <a href="/tags/MVC/" style="font-size: 10px;">MVC</a> <a href="/tags/Microsoft-Graph/" style="font-size: 10px;">Microsoft Graph</a> <a href="/tags/Module/" style="font-size: 10px;">Module</a> <a href="/tags/Mono/" style="font-size: 12.5px;">Mono</a> <a href="/tags/O365/" style="font-size: 10px;">O365</a> <a href="/tags/Office-365/" style="font-size: 10px;">Office 365</a> <a href="/tags/Parallel/" style="font-size: 10px;">Parallel</a> <a href="/tags/PathTooLongException/" style="font-size: 10px;">PathTooLongException</a> <a href="/tags/Plugins/" style="font-size: 10px;">Plugins</a> <a href="/tags/PowerShell/" style="font-size: 15px;">PowerShell</a> <a href="/tags/Quartz-NET/" style="font-size: 10px;">Quartz.NET</a> <a href="/tags/RC1/" style="font-size: 10px;">RC1</a> <a href="/tags/REST-API/" style="font-size: 10px;">REST API</a> <a href="/tags/ReCaptcha-NET/" style="font-size: 10px;">ReCaptcha.NET</a> <a href="/tags/Resource-Group/" style="font-size: 10px;">Resource Group</a> <a href="/tags/SELECT/" style="font-size: 10px;">SELECT</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SQL-Server/" style="font-size: 20px;">SQL Server</a> <a href="/tags/Serialisation/" style="font-size: 10px;">Serialisation</a> <a href="/tags/Service-Broker/" style="font-size: 17.5px;">Service Broker</a> <a href="/tags/Session/" style="font-size: 10px;">Session</a> <a href="/tags/SharePoint/" style="font-size: 10px;">SharePoint</a> <a href="/tags/Swagger/" style="font-size: 12.5px;">Swagger</a> <a href="/tags/Swashbuckle/" style="font-size: 10px;">Swashbuckle</a> <a href="/tags/Testability/" style="font-size: 12.5px;">Testability</a> <a href="/tags/Tips-amp-Tricks/" style="font-size: 10px;">Tips &amp; Tricks</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Visual-Studio/" style="font-size: 10px;">Visual Studio</a> <a href="/tags/Visual-Studio-2013/" style="font-size: 10px;">Visual Studio 2013</a> <a href="/tags/WCF/" style="font-size: 10px;">WCF</a> <a href="/tags/WHERE/" style="font-size: 10px;">WHERE</a> <a href="/tags/Web-API/" style="font-size: 12.5px;">Web API</a> <a href="/tags/Windows-API-Code-Pack/" style="font-size: 10px;">Windows API Code Pack</a> <a href="/tags/Windows-Service/" style="font-size: 10px;">Windows Service</a> <a href="/tags/XML/" style="font-size: 12.5px;">XML</a> <a href="/tags/asp-net/" style="font-size: 10px;">asp.net</a> <a href="/tags/concourrency/" style="font-size: 10px;">concourrency</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/npm/" style="font-size: 12.5px;">npm</a> <a href="/tags/reCaptcha/" style="font-size: 10px;">reCaptcha</a> <a href="/tags/visual-studio-2015/" style="font-size: 10px;">visual studio 2015</a> <a href="/tags/vs-2015/" style="font-size: 10px;">vs 2015</a>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 DevKimchi</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'devkimchi';
+    
+    
+    var disqus_url = 'http://devkimchi.com/2015/12/16/implementing-application-with-office365-graph-api-in-app-only-mode/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-share.min.js"></script>
+        <script src="/vendor/lightgallery/js/lg-video.min.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
